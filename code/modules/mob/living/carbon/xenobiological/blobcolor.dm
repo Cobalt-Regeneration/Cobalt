@@ -16,7 +16,7 @@
 	var/buckle_timer = 3 SECONDS // How long it takes a (non bio-protected) mob to get buckled the slime's creep in seconds
 	var/eat_damage = 10 // How much damage this slime deals to a buckled mob
 
-	var/digestive_reagent = /datum/reagent/acid/stomach // Which reagent is splashed on the mob during digestion/what 
+	var/list/digestive_reagents = list(/datum/reagent/acid/stomach) // Which reagent is splashed on the mob during digestion/what is harvested from slime sac
 
 /datum/slimecolor/proc/effect(var/mob/living/M, var/obj/structure/xenoblob/creep/C) // Override this for all colors
 	M.visible_message("<span class='notice'>Something went wrong with [C], tell coders</span>")
@@ -44,7 +44,7 @@
 "metal" "#7E7E7E"
 "yellow" "#FFFF00"
 "dark purple" "#551A8B"
- "dark blue" "#0000FF"
+"dark blue" "#0000FF"
 "silver" "#D3D3D3"
 "bluespace" "#32CD32"
 "sepia" "#704214"

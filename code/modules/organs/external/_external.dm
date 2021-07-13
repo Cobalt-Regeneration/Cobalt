@@ -821,8 +821,8 @@ Note that amputating the affected organ does in fact remove the infection from t
 			if(DROPLIMB_BURN)
 				var/gore = "[BP_IS_ROBOTIC(src) ? "": " of burning flesh"]"
 				return list(
-					"\The [owner]'s [src.name] flashes away into ashes!",
-					"Your [src.name] flashes away into ashes!",
+					"\The [owner]'s [src.name] burns away!",
+					"Your [src.name] burns away!",
 					"You hear a crackling sound[gore]."
 					)
 			if(DROPLIMB_BLUNT)

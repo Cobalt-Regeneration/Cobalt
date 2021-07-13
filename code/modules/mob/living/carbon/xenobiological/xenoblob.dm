@@ -39,6 +39,7 @@
 	icon_state = "creep"
 	max_integrity = 30
 	can_buckle = TRUE
+	buckle_lying = 1
 	//canSmoothWith = list(/obj/structure/xenoblob/creep, /turf/closed/wall)
 	//smooth = SMOOTH_MORE
 
@@ -105,9 +106,7 @@
 
 /obj/structure/xenoblob/creep/proc/on_step(var/mob/living/M) // Add stuff/override this for different slime step effects
 	if(buckled_mob || M.stat == DEAD) // Shouldn't do any effect or try to grab again if it has something, or if the mob is dead
-		return
-
-	owner_node.scolor.effect(M, src) // color-specific effects go here
+		return FALSE
 
 	var/delay = buckle_timer// * 1 + M.getarmor(type = "bio")/20 // Bio protection increases the time, bio suit will make it take 5x as long
 	grabbing = TRUE
@@ -121,6 +120,7 @@
 			M.visible_message("<span class='warning'>[src] fails to latch on to [M]!</span>", \
 				"<span class='warning'>The [src] tries to envelop you, but fails.</span>")
 	grabbing = FALSE
+	return TRUE
 
 /obj/structure/xenoblob/creep/proc/process_mob()
 	if(buckled_mob) // Eating buckled mobs
@@ -140,18 +140,18 @@
 				visible_message("<span class='warning'>[src] fails to absorb anything!</span>")
 
 /obj/structure/xenoblob/creep/proc/eat(var/mob/living/M)
-	var/bio_modifier = 1 //+ M.getarmor(type = "bio")/20
-	var/damage = eat_damage / bio_modifier
-	if(iscarbon(M))
-		var/mob/living/carbon/C = M
-		if(M.isMonkey())
-			C.adjustToxLoss(damage) // Speed things up a bit for working
-		C.adjustFireLoss(damage/2) // Burn damage due to digestive enzymes
-		C.adjustToxLoss(damage)
-	else if(isanimal(M))
-		var/mob/living/simple_animal/SA = M
-		SA.adjustFireLoss(damage/2)
-		SA.adjustToxLoss(damage)
+	//var/bio_modifier = 1 //+ M.getarmor(type = "bio")/20
+	//var/damage = eat_damage / bio_modifier
+	var/datum/reagents/splash_reagents = owner_node.sac.reagents
+	
+	// splash digestive enzymes to deal damage, cooler than just applying burn/tox
+	splash_reagents.splash(M, 10, min_spill = 0, max_spill = 0)
+	if(M.isMonkey())
+		splash_reagents.trans_to_mob(M, 10, CHEM_BLOOD) // Speed up digesting monkeys for working
+	if(prob(5))
+		splash_reagents.trans_to_mob(M, 5, CHEM_BLOOD) // Inject some reagents sometimes
+		to_chat(M, "<span class='warning'>You feel the slime pierce your skin!</span>")
+	
 	owner_core.add_hunger(30)
 
 /obj/structure/xenoblob/creep/proc/make_node(var/mob/living/M)
@@ -214,13 +214,14 @@
 
 	var/frozen = FALSE // If the node is frozen (by an endothermic trimmer) or not, should halt operations but stay alive
 	var/thawing_time = 900 // How long until this node thaws. Might be changed in different slime types
-	var/desecrated = FALSE // If the node has been completely desecrated by cold. Makes it unharvesable, and won't thaw unless heated to very high temps
+	var/desecrated = FALSE // If the node has been completely desecrated by cold/a weapon. Makes it unharvesable and unsalvageable
 
 	var/obj/structure/xenoblob/node/core/owner_core // What core controls this node. If none (core is killed), probably start becoming a core
 	var/is_core = FALSE // If this is a node or a core. simplifes having to do if(X.owner_node == /obj/structure/xenoblob/node/core)
 
-	var/range = 1 // How far the node will spread creep out to. Keep in mind that expand() makes creep on all adjacent tiles, so real range is this +1
+	var/range = 0 // How far the node will spread creep out to. Keep in mind that expand() makes creep on all adjacent tiles, so real range is this +1
 	var/list/creeps // List of tiles controlled by this node
+	var/obj/item/slimesac/sac // Reference to this node/core's slimesac
 
 /obj/structure/xenoblob/node/Initialize(mapload, var/owner, var/datum/slimecolor/slmcolor) //scolor for slimecolor, in case we want to make a new node/core with X color (slime extracts growing into nodes?)
 	. = ..()
@@ -235,7 +236,14 @@
 		scolor = new /datum/slimecolor/grey
 	if(!(locate(/obj/structure/xenoblob/creep) in loc))
 		new /obj/structure/xenoblob/creep(loc, src)
+	name = "[scolor.name] slime [is_core ? "core" : "node"]"
+	sac = new /obj/item/slimesac(src, src)
 	START_PROCESSING(SSobj, src)
+
+/obj/structure/xenoblob/node/take_damage(damage)
+	. = ..()
+	if(obj_integrity <= 0)
+		desecrated = TRUE
 
 /obj/structure/xenoblob/node/Destroy()
 	STOP_PROCESSING(SSobj, src)
@@ -261,6 +269,8 @@
 			if(C.expand(src))
 				C.last_expand = world.time + C.growth_cooldown
 
+	sac.regen_reagents()
+
 	for(var/obj/structure/xenoblob/creep/C in creeps)
 		if(C.buckled_mob) // If it has a mob, process it
 			C.process_mob()
@@ -269,8 +279,9 @@
 			C.absorbing = FALSE
 
 		if(!C.grabbing)
-			for(var/mob/living/M in C.loc) // I think on_step() should be overriden to do step effects for slime colors, and we probably need a cooldown
-				C.on_step(M)
+			for(var/mob/living/M in C.loc) // Does slime color effects
+				if(C.on_step(M) && prob(5)) // If not holding a mob, have a chance to do effect
+					scolor.effect(M, C) // color-specific effects go here
 
 /obj/structure/xenoblob/node/proc/uproot()
 	frozen = TRUE
@@ -280,6 +291,29 @@
 	creeps = null
 
 /*
+ *  Slime Sac (thing that digests captures)
+ */
+
+/obj/item/slimesac
+	gender = NEUTER
+	name = "slime sac"
+	desc = "A digestive organelle harvested from a slime. Can contain large volumes of rare reagents."
+
+	var/obj/structure/xenoblob/node/owner // What node contains this slimesac
+
+/obj/item/slimesac/Initialize(mapload, var/owner_node)
+	. = ..()
+	if(owner_node)
+		owner = owner_node
+		name = "[owner.scolor.name] slime sac"
+	create_reagents(1000)
+	for(var/R in owner.scolor.digestive_reagents)
+		reagents.add_reagent(R, 1000/length(owner.scolor.digestive_reagents)) // Equal amount of all reagents in list
+
+/obj/item/slimesac/proc/regen_reagents() // Called when in a node
+	reagents.add_reagent(pick(owner.scolor.digestive_reagents), 5)
+
+/*
  * CORE (node+)
  */
 
@@ -287,24 +321,23 @@
 	name = "slime core"
 	desc = "A translucent, pulsating mass of slime containing glowing cores."
 	max_integrity = 400
-	extract_amount = 1 // Placeholder amount until tile counts are kept
-	range = 2
+	extract_amount = 1
+	range = 1
 	is_core = TRUE
 
 	var/total_tiles // Total of all tiles controlled by this blob, including tiles controlled by its nodes.
 	var/list/controlled_nodes // List of all nodes controlled by this core
 
-	// max hunger and agression are in __DEFINES/xenoblob.dm
+	// max hunger and aggression are in blobcolor.dm
 	var/current_hunger // Directly relates to aggression rate
-	var/aggression // Should do stuff like speed up eating, speed up buckling, maybe make step effects worse?, and make slimes come out of the core at a certain point
-	var/aggression_rate // How fast agression goes up, could be locked by BZ gas and the CBZ reagent, and slowed down by frost oil and tramadol
+	var/aggression = 0 // Should do stuff like speed up eating, speed up buckling, maybe make step effects worse?, and make slimes come out of the core at a certain point
+	var/aggression_rate = 0 // How fast agression goes up, could be locked by BZ gas and the CBZ reagent, and slowed down by frost oil and tramadol
 
 /obj/structure/xenoblob/node/core/Initialize(mapload, owner, scolor)
 	. = ..()
 	controlled_nodes = list()
 	create_reagents(100)
 	current_hunger = src.scolor.max_hunger / 2
-	aggression = 0
 
 /obj/structure/xenoblob/node/core/Process()
 	. = ..()
@@ -354,9 +387,9 @@
 			if(/datum/reagent/blood)
 				add_hunger(40) // blood metabolizes super fast (5u a tick) so it needs to add a ton of hunger
 			if(/datum/reagent/tramadol)
-				temp_aggression_rate = max(aggro[6], aggression_rate - 1)
+				temp_aggression_rate = max(aggro[6], aggression_rate + 1)
 			if(/datum/reagent/frostoil)
-				temp_aggression_rate = max(aggro[6], aggression_rate - 2)
+				temp_aggression_rate = max(aggro[6], aggression_rate + 2)
 		reagents.remove_reagent(R.type, R.metabolism)
 
 	add_aggression(temp_aggression_rate)
