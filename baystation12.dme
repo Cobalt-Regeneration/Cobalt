@@ -2092,6 +2092,7 @@
 #include "code\modules\mob\living\carbon\xenobiological\powers.dm"
 #include "code\modules\mob\living\carbon\xenobiological\say.dm"
 #include "code\modules\mob\living\carbon\xenobiological\slime_AI.dm"
+#include "code\modules\mob\living\carbon\xenobiological\slimecolors.dm"
 #include "code\modules\mob\living\carbon\xenobiological\subtypes.dm"
 #include "code\modules\mob\living\carbon\xenobiological\update_icons.dm"
 #include "code\modules\mob\living\carbon\xenobiological\xenobiological.dm"
