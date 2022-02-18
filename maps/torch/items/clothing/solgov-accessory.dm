@@ -3,6 +3,9 @@
 	icon = 'maps/torch/icons/obj/obj_accessories_solgov.dmi'
 	accessory_icons = list(slot_w_uniform_str = 'maps/torch/icons/mob/onmob_accessories_solgov.dmi', slot_wear_suit_str = 'maps/torch/icons/mob/onmob_accessories_solgov.dmi')
 	w_class = ITEM_SIZE_TINY
+	sprite_sheets = list(
+		SPECIES_RESOMI = 'icons/mob/species/resomi/onmob_accessories_solgov_resomi.dmi'
+		)
 
 /*****
 medals
@@ -169,6 +172,9 @@ ribbons
 	icon = 'maps/torch/icons/obj/obj_accessories_solgov.dmi'
 	accessory_icons = list(slot_w_uniform_str = 'maps/torch/icons/mob/onmob_accessories_solgov.dmi', slot_wear_suit_str = 'maps/torch/icons/mob/onmob_accessories_solgov.dmi')
 	w_class = ITEM_SIZE_TINY
+	sprite_sheets = list(
+		SPECIES_RESOMI = 'icons/mob/species/resomi/onmob_accessories_solgov_resomi.dmi'
+		)
 
 /obj/item/clothing/accessory/ribbon/solgov/marksman
 	name = "marksmanship ribbon"
@@ -374,7 +380,8 @@ department tags
 	slot = ACCESSORY_SLOT_DEPT
 	accessory_flags = EMPTY_BITFIELD
 	sprite_sheets = list(
-		SPECIES_UNATHI = 'icons/mob/species/unathi/onmob_accessories_sol_unathi.dmi'
+		SPECIES_UNATHI = 'icons/mob/species/unathi/onmob_accessories_sol_unathi.dmi',
+		SPECIES_RESOMI = 'icons/mob/species/resomi/onmob_accessories_solgov_resomi.dmi'
 		)
 
 /obj/item/clothing/accessory/solgov/department/command
@@ -525,7 +532,8 @@ ranks - ec
 	gender = PLURAL
 	accessory_flags = ACCESSORY_REMOVABLE | ACCESSORY_HIGH_VISIBILITY
 	sprite_sheets = list(
-		SPECIES_UNATHI = 'icons/mob/species/unathi/onmob_accessories_sol_unathi.dmi'
+		SPECIES_UNATHI = 'icons/mob/species/unathi/onmob_accessories_sol_unathi.dmi',
+		SPECIES_RESOMI = 'icons/mob/species/resomi/onmob_accessories_solgov_resomi.dmi'
 		)
 
 /obj/item/clothing/accessory/solgov/rank/ec
