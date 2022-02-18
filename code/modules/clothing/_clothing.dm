@@ -813,7 +813,7 @@ BLIND     // can't see anything
 		SPECIES_VOX = 'icons/mob/species/vox/onmob_under_vox.dmi',
 		SPECIES_VOX_ARMALIS = 'icons/mob/species/vox/onmob_under_vox_armalis.dmi',
 		SPECIES_NABBER = 'icons/mob/species/nabber/onmob_under_gas.dmi',
-		SPECIES_UNATHI = 'icons/mob/species/unathi/generated/onmob_under_unathi.dmi'
+		SPECIES_UNATHI = 'icons/mob/species/unathi/generated/onmob_under_unathi.dmi',
 		SPECIES_RESOMI = 'icons/mob/species/resomi/onmob_under_resomi.dmi'
 	)
 
