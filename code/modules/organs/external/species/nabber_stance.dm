@@ -5,9 +5,11 @@
 	limb_flags = ORGAN_FLAG_CAN_AMPUTATE | ORGAN_FLAG_GENDERED_ICON | ORGAN_FLAG_CAN_BREAK
 
 /obj/item/organ/external/head/insectoid/nabber/get_eye_overlay()
-	var/obj/item/organ/internal/eyes/eyes = owner.internal_organs_by_name[owner.species.vision_organ ? owner.species.vision_organ : BP_EYES]
-	if(eyes)
-		return eyes.get_special_overlay()
+	var/list/overlay_list = list()
+	for(var/slot in list(BP_L_EYE, BP_R_EYE))
+		var/obj/item/organ/internal/eye/E = owner.internal_organs_by_name[slot]
+		if(E)
+			overlay_list += E.get_special_overlay()
 
 /obj/item/organ/external/head/insectoid/nabber/refresh_action_button()
 	. = ..()

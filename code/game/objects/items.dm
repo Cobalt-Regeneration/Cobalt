@@ -556,8 +556,8 @@ var/list/global/slot_flags_enumeration = list(
 		L = L.loc
 	return loc
 
-/obj/item/proc/eyestab(mob/living/carbon/M as mob, mob/living/carbon/user as mob)
-	if (user.a_intent == I_HELP)
+/obj/item/proc/eyestab(mob/living/carbon/M as mob, mob/living/carbon/user as mob, var/target)
+	if (user.a_intent == I_HELP || !(target == BP_L_EYE || target == BP_R_EYE)) // if on help or not targeting eyes, fail
 		return FALSE
 
 	var/mob/living/carbon/human/H = M
@@ -581,34 +581,35 @@ var/list/global/slot_flags_enumeration = list(
 
 	if(istype(H))
 
-		var/obj/item/organ/internal/eyes/eyes = H.internal_organs_by_name[BP_EYES]
+		var/obj/item/organ/internal/eye/eyes = H.internal_organs_by_name[target]
+		var/name = "[eyes.organ_tag == BP_L_EYE ? "left" : "right"] eye"
 
 		if(H != user)
 			for(var/mob/O in (viewers(M) - user - M))
-				O.show_message("<span class='danger'>[M] has been stabbed in the eye with [src] by [user].</span>", 1)
-			to_chat(M, "<span class='danger'>[user] stabs you in the eye with [src]!</span>")
-			to_chat(user, "<span class='danger'>You stab [M] in the eye with [src]!</span>")
+				O.show_message("<span class='danger'>[M] has been stabbed in the [name] with [src] by [user].</span>", 1)
+			to_chat(M, "<span class='danger'>[user] stabs you in the [name] with [src]!</span>")
+			to_chat(user, "<span class='danger'>You stab [M] in the [name] with [src]!</span>")
 		else
 			user.visible_message( \
-				"<span class='danger'>[user] has stabbed themself with [src]!</span>", \
-				"<span class='danger'>You stab yourself in the eyes with [src]!</span>" \
+				"<span class='danger'>[user] has stabbed themself in the [name] with [src]!</span>", \
+				"<span class='danger'>You stab yourself in the [name] with [src]!</span>" \
 			)
 
 		eyes.damage += rand(3,4)
 		if(eyes.damage >= eyes.min_bruised_damage)
 			if(M.stat != 2)
 				if(!BP_IS_ROBOTIC(eyes)) //robot eyes bleeding might be a bit silly
-					to_chat(M, "<span class='danger'>Your eyes start to bleed profusely!</span>")
+					to_chat(M, "<span class='danger'>Your [name] start to bleed profusely!</span>")
 			if(prob(50))
 				if(M.stat != 2)
-					to_chat(M, "<span class='warning'>You drop what you're holding and clutch at your eyes!</span>")
+					to_chat(M, "<span class='warning'>You drop what you're holding and clutch at your [name]!</span>")
 					M.unequip_item()
 				M.eye_blurry += 10
 				M.Paralyse(1)
 				M.Weaken(4)
 			if (eyes.damage >= eyes.min_broken_damage)
 				if(M.stat != 2)
-					to_chat(M, "<span class='warning'>You go blind!</span>")
+					to_chat(M, "<span class='warning'>Your [name] goes blind!</span>")
 
 		var/obj/item/organ/external/affecting = H.get_organ(eyes.parent_organ)
 		affecting.take_external_damage(7)

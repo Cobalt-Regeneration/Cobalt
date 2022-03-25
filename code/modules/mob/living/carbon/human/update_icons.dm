@@ -181,8 +181,9 @@ Please contact me on #coderbus IRC. ~Carn x
 
 		var/obj/item/organ/external/head/head = organs_by_name[BP_HEAD]
 		if(istype(head) && !head.is_stump())
-			var/image/I = head.get_eye_overlay()
-			if(I) overlays_to_apply += I
+			var/list/I = head.get_eye_overlay()
+			for(var/image/img in I)
+				if(img) overlays_to_apply += img
 
 	if(auras)
 		overlays_to_apply += auras
@@ -342,9 +343,16 @@ var/global/list/damage_icon_parts = list()
 		icon_key += "[lip_style]"
 	else
 		icon_key += "nolips"
-	var/obj/item/organ/internal/eyes/eyes = internal_organs_by_name[species.vision_organ ? species.vision_organ : BP_EYES]
-	if(istype(eyes))
-		icon_key += "[rgb(eyes.eye_colour[1], eyes.eye_colour[2], eyes.eye_colour[3])]"
+
+	var/obj/item/organ/internal/eye/l_eye = internal_organs_by_name[BP_L_EYE]
+	if(istype(l_eye))
+		icon_key += "[rgb(l_eye.eye_colour[1], l_eye.eye_colour[2], l_eye.eye_colour[3])]"
+	else
+		icon_key += "#000000"
+
+	var/obj/item/organ/internal/eye/r_eye = internal_organs_by_name[BP_R_EYE]
+	if(istype(r_eye))
+		icon_key += "[rgb(r_eye.eye_colour[1], r_eye.eye_colour[2], r_eye.eye_colour[3])]"
 	else
 		icon_key += "#000000"
 

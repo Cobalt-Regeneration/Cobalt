@@ -22,10 +22,10 @@
 		return ..()
 
 	if(user.a_intent != I_HELP)
-		if(target_zone == BP_EYES)
+		if(target_zone == BP_L_EYE || target_zone == BP_R_EYE)
 			if((MUTATION_CLUMSY in user.mutations) && prob(50))
 				M = user
-			return eyestab(M, user)
+			return eyestab(M, user, target_zone)
 
 	return ..()
 

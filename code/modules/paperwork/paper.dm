@@ -222,7 +222,7 @@
 	show_content(user)
 
 /obj/item/paper/attack(mob/living/carbon/M as mob, mob/living/carbon/user as mob)
-	if(user.zone_sel.selecting == BP_EYES)
+	if(user.zone_sel.selecting == BP_L_EYE || user.zone_sel.selecting == BP_R_EYE)
 		user.visible_message("<span class='notice'>You show the paper to [M]. </span>", \
 			"<span class='notice'> [user] holds up a paper and shows it to [M]. </span>")
 		M.examinate(src)

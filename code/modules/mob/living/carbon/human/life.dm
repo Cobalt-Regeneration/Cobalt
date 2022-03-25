@@ -186,10 +186,10 @@
 	..()
 	//Vision
 	var/obj/item/organ/vision
-	if(species.vision_organ)
-		vision = internal_organs_by_name[species.vision_organ]
+	if(species.vision_organs)
+		vision = internal_organs_by_name[species.vision_organs]
 
-	if(!species.vision_organ) // Presumably if a species has no vision organs, they see via some other means.
+	if(!species.vision_organs) // Presumably if a species has no vision organs, they see via some other means.
 		eye_blind =  0
 		blinded =    0
 		eye_blurry = 0

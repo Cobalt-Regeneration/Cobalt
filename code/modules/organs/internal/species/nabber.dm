@@ -6,46 +6,46 @@
 	. = ..()
 	robotize()
 
-/obj/item/organ/internal/eyes/insectoid/nabber
-	name = "compound eyes"
+/obj/item/organ/internal/eye/insectoid/nabber
+	name = "left compound eye"
 	innate_flash_protection = FLASH_PROTECTION_VULNERABLE
 	phoron_guard = 1
-	action_button_name = "Toggle Eye Shields"
+	action_button_name = "Toggle Eye Shield"
 	eye_icon = 'icons/mob/human_races/species/nabber/eyes.dmi'
-	var/eyes_shielded
+	var/eye_shielded
 
-/obj/item/organ/internal/eyes/insectoid/msq
-	name = "compound eyes"
+/obj/item/organ/internal/eye/insectoid/msq
+	name = "left compound eye"
 	eye_icon = 'icons/mob/human_races/species/nabber/msq/eyes.dmi'
 
-/obj/item/organ/internal/eyes/insectoid/nabber/get_special_overlay()
+/obj/item/organ/internal/eye/insectoid/nabber/get_special_overlay()
 	var/icon/I = get_onhead_icon()
 	if(I)
 		var/image/eye_overlay = image(I)
 		if(owner && owner.is_cloaked())
 			eye_overlay.alpha = 100
-		if(eyes_shielded)
+		if(eye_shielded)
 			eye_overlay.color = "#aaaaaa"
 		return eye_overlay
 
-/obj/item/organ/internal/eyes/insectoid/nabber/additional_flash_effects(var/intensity)
-	if(!eyes_shielded)
+/obj/item/organ/internal/eye/insectoid/nabber/additional_flash_effects(var/intensity)
+	if(!eye_shielded)
 		take_internal_damage(max(0, 4 * (intensity)))
 		return 1
 	else
 		return -1
 
-/obj/item/organ/internal/eyes/insectoid/nabber/refresh_action_button()
+/obj/item/organ/internal/eye/insectoid/nabber/refresh_action_button()
 	. = ..()
 	if(.)
-		action.button_icon_state = "nabber-shield-[eyes_shielded ? 1 : 0]"
+		action.button_icon_state = "nabber-shield-[eye_shielded ? 1 : 0]"
 		if(action.button) action.button.UpdateIcon()
 
-/obj/item/organ/internal/eyes/insectoid/nabber/attack_self(var/mob/user)
+/obj/item/organ/internal/eye/insectoid/nabber/attack_self(var/mob/user)
 	. = ..()
 	if(.)
-		eyes_shielded = !eyes_shielded
-		if(eyes_shielded)
+		eye_shielded = !eye_shielded
+		if(eye_shielded)
 			to_chat(owner, "<span class='notice'>Nearly opaque lenses slide down to shield your eyes.</span>")
 			innate_flash_protection = FLASH_PROTECTION_MAJOR
 			owner.overlay_fullscreen("eyeshield", /obj/screen/fullscreen/blind)
@@ -57,15 +57,78 @@
 			owner.update_icons()
 		refresh_action_button()
 
-/obj/item/organ/internal/eyes/insectoid/nabber/proc/remove_shield()
+/obj/item/organ/internal/eye/insectoid/nabber/proc/remove_shield()
 	owner.clear_fullscreen("eyeshield")
 
-/obj/item/organ/internal/eyes/nabber/New(var/mob/living/carbon/holder)
+/obj/item/organ/internal/eye/nabber/New(var/mob/living/carbon/holder)
 	. = ..()
 	if(dna)
 		color = rgb(dna.GetUIValue(DNA_UI_EYES_R), dna.GetUIValue(DNA_UI_EYES_G), dna.GetUIValue(DNA_UI_EYES_B))
 
-/obj/item/organ/internal/eyes/insectoid/nabber/set_dna(var/datum/dna/new_dna)
+/obj/item/organ/internal/eye/insectoid/nabber/set_dna(var/datum/dna/new_dna)
+	. = ..()
+	color = rgb(new_dna.GetUIValue(DNA_UI_EYES_R), new_dna.GetUIValue(DNA_UI_EYES_G), new_dna.GetUIValue(DNA_UI_EYES_B))
+
+/obj/item/organ/internal/eye/right/insectoid/nabber
+	name = "right compound eye"
+	innate_flash_protection = FLASH_PROTECTION_VULNERABLE
+	phoron_guard = 1
+	action_button_name = "Toggle Eye Shield"
+	eye_icon = 'icons/mob/human_races/species/nabber/eyes.dmi'
+	var/eye_shielded
+
+/obj/item/organ/internal/eye/right/insectoid/msq
+	name = "right compound eye"
+	eye_icon = 'icons/mob/human_races/species/nabber/msq/eyes.dmi'
+
+/obj/item/organ/internal/eye/right/insectoid/nabber/get_special_overlay()
+	var/icon/I = get_onhead_icon()
+	if(I)
+		var/image/eye_overlay = image(I)
+		if(owner && owner.is_cloaked())
+			eye_overlay.alpha = 100
+		if(eye_shielded)
+			eye_overlay.color = "#aaaaaa"
+		return eye_overlay
+
+/obj/item/organ/internal/eye/right/insectoid/nabber/additional_flash_effects(var/intensity)
+	if(!eye_shielded)
+		take_internal_damage(max(0, 4 * (intensity)))
+		return 1
+	else
+		return -1
+
+/obj/item/organ/internal/eye/right/insectoid/nabber/refresh_action_button()
+	. = ..()
+	if(.)
+		action.button_icon_state = "nabber-shield-[eye_shielded ? 1 : 0]"
+		if(action.button) action.button.UpdateIcon()
+
+/obj/item/organ/internal/eye/right/insectoid/nabber/attack_self(var/mob/user)
+	. = ..()
+	if(.)
+		eye_shielded = !eye_shielded
+		if(eye_shielded)
+			to_chat(owner, "<span class='notice'>Nearly opaque lenses slide down to shield your eyes.</span>")
+			innate_flash_protection = FLASH_PROTECTION_MAJOR
+			owner.overlay_fullscreen("eyeshield", /obj/screen/fullscreen/blind)
+			owner.update_icons()
+		else
+			to_chat(owner, "<span class='notice'>Your protective lenses retract out of the way.</span>")
+			innate_flash_protection = FLASH_PROTECTION_VULNERABLE
+			addtimer(CALLBACK(src, .proc/remove_shield), 1 SECONDS)
+			owner.update_icons()
+		refresh_action_button()
+
+/obj/item/organ/internal/eye/right/insectoid/nabber/proc/remove_shield()
+	owner.clear_fullscreen("eyeshield")
+
+/obj/item/organ/internal/eye/right/nabber/New(var/mob/living/carbon/holder)
+	. = ..()
+	if(dna)
+		color = rgb(dna.GetUIValue(DNA_UI_EYES_R), dna.GetUIValue(DNA_UI_EYES_G), dna.GetUIValue(DNA_UI_EYES_B))
+
+/obj/item/organ/internal/eye/right/insectoid/nabber/set_dna(var/datum/dna/new_dna)
 	. = ..()
 	color = rgb(new_dna.GetUIValue(DNA_UI_EYES_R), new_dna.GetUIValue(DNA_UI_EYES_G), new_dna.GetUIValue(DNA_UI_EYES_B))
 

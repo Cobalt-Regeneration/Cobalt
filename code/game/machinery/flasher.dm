@@ -76,7 +76,7 @@
 				flash_time = round(H.getFlashMod() * flash_time)
 				if(flash_time <= 0)
 					return
-				var/obj/item/organ/internal/eyes/E = H.internal_organs_by_name[H.species.vision_organ]
+				var/obj/item/organ/internal/eyes/E = H.internal_organs_by_name[H.species.vision_organs]
 				if(!E)
 					return
 				if(E.is_bruised() && prob(E.damage + 50))
@@ -118,7 +118,7 @@
 		var/mob/living/carbon/M = AM
 		if(!MOVING_DELIBERATELY(M))
 			flash()
-	
+
 	if(isanimal(AM))
 		flash()
 

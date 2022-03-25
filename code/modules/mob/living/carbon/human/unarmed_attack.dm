@@ -60,7 +60,7 @@ var/global/list/sparring_attack_cache = list()
 
 	if(attack_damage >= 5 && armour < 1 && !(target == user) && stun_chance <= attack_damage * 5) // 25% standard chance
 		switch(zone) // strong punches can have effects depending on where they hit
-			if(BP_HEAD, BP_EYES, BP_MOUTH)
+			if(BP_HEAD, BP_L_EYE, BP_R_EYE, BP_MOUTH)
 				// Induce blurriness
 				target.visible_message("<span class='danger'>[target] looks momentarily disoriented.</span>", "<span class='danger'>You see stars.</span>")
 				target.apply_effect(attack_damage*2, EYE_BLUR, armour)
@@ -107,8 +107,8 @@ var/global/list/sparring_attack_cache = list()
 	user.visible_message("<span class='warning'>[user] [pick(attack_verb)] [target] in the [affecting.name]!</span>")
 	playsound(user.loc, attack_sound, 25, 1, -1)
 
-/datum/unarmed_attack/proc/handle_eye_attack(var/mob/living/carbon/human/user, var/mob/living/carbon/human/target)
-	var/obj/item/organ/internal/eyes/eyes = target.internal_organs_by_name[BP_EYES]
+/datum/unarmed_attack/proc/handle_eye_attack(var/mob/living/carbon/human/user, var/mob/living/carbon/human/target, var/bp_target)
+	var/obj/item/organ/internal/eye/eyes = target.internal_organs_by_name[bp_target]
 	if(eyes)
 		eyes.take_internal_damage(rand(3,4), 1)
 		user.visible_message("<span class='danger'>[user] presses \his [eye_attack_text] into [target]'s [eyes.name]!</span>")
@@ -138,7 +138,7 @@ var/global/list/sparring_attack_cache = list()
 	for(var/obj/item/clothing/C in list(user.wear_mask, user.head, user.wear_suit))
 		if(C && (C.body_parts_covered & FACE) && (C.item_flags & ITEM_FLAG_THICKMATERIAL))
 			return FALSE //prevent biting through a space helmet or similar
-	if (user == target && (zone == BP_HEAD || zone == BP_EYES || zone == BP_MOUTH))
+	if (user == target && (zone == BP_HEAD || zone == BP_L_EYE || zone == BP_R_EYE || zone == BP_MOUTH))
 		return FALSE //how do you bite yourself in the head?
 	return TRUE
 
@@ -165,7 +165,7 @@ var/global/list/sparring_attack_cache = list()
 
 	if(!target.lying)
 		switch(zone)
-			if(BP_HEAD, BP_MOUTH, BP_EYES)
+			if(BP_HEAD, BP_MOUTH, BP_L_EYE, BP_R_EYE)
 				// ----- HEAD ----- //
 				switch(attack_damage)
 					if(1 to 2)

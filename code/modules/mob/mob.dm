@@ -1069,7 +1069,7 @@
 /client/verb/body_toggle_head()
 	set name = "body-toggle-head"
 	set hidden = 1
-	toggle_zone_sel(list(BP_HEAD,BP_EYES,BP_MOUTH))
+	toggle_zone_sel(list(BP_HEAD,BP_L_EYE,BP_R_EYE,BP_MOUTH))
 
 /client/verb/body_r_arm()
 	set name = "body-r-arm"

@@ -49,7 +49,7 @@
 		return 0
 
 	switch(zone)
-		if(BP_HEAD, BP_MOUTH, BP_EYES)
+		if(BP_HEAD, BP_MOUTH, BP_L_EYE, BP_R_EYE)
 			// ----- HEAD ----- //
 			switch(attack_damage)
 				if(1 to 2) user.visible_message("<span class='danger'>[user] scratched [target] across \his cheek!</span>")

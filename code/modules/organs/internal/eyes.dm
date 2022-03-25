@@ -1,10 +1,10 @@
 
 /obj/item/organ/internal/eye
-	name = "eyeballs"
-	desc = "if this shows up, yell at coders"
+	name = "left eyeball"
+	desc = "Well... this isn't right."
 	icon_state = "eye"
 	gender = PLURAL
-	organ_tag = "none"
+	organ_tag = BP_L_EYE
 	parent_organ = BP_HEAD
 	surface_accessible = TRUE
 	relative_size = 5
@@ -20,11 +20,6 @@
 	var/darksight_range
 	var/darksight_tint
 
-/obj/item/organ/internal/eye/left
-	name = "left eyeball"
-	desc = "Well... this isn't right."
-	organ_tag = BP_L_EYE
-
 /obj/item/organ/internal/eye/right
 	name = "right eyeball"
 	desc = "Well... this isn't left."
@@ -38,10 +33,10 @@
 /obj/item/organ/internal/eye/proc/get_onhead_icon()
 	var/cache_key = get_eye_cache_key()
 	if(!human_icon_cache[cache_key])
-		var/icon/eye_icon = icon(icon = eye_icon, icon_state = "")
+		var/icon/eyes_icon = icon(icon = eye_icon, icon_state = "")
 		if(apply_eye_colour)
-			eye_icon.Blend(last_cached_eye_colour, ICON_ADD)
-		human_icon_cache[cache_key] = eye_icon
+			eyes_icon.Blend(last_cached_eye_colour, ICON_ADD)
+		human_icon_cache[cache_key] = eyes_icon
 	return human_icon_cache[cache_key]
 
 /obj/item/organ/internal/eye/proc/get_special_overlay()
@@ -120,12 +115,14 @@
 	return -1
 
 /obj/item/organ/internal/eye/robot
-	name = "optical sensor"
+	name = "left optical sensor"
+	organ_tag = BP_L_EYE
 	status = ORGAN_ROBOTIC
 
-/obj/item/organ/internal/eye/robot/left
-	name = "left optical sensor"
-	organ_tag = ""
+/obj/item/organ/internal/eye/right/robot
+	name = "right optical sensor"
+	organ_tag = BP_R_EYE
+	status = ORGAN_ROBOTIC
 
 /obj/item/organ/internal/eye/robot/New()
 	..()

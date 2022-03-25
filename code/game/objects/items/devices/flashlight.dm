@@ -65,7 +65,7 @@
 
 /obj/item/device/flashlight/attack(mob/living/M as mob, mob/living/user as mob)
 	add_fingerprint(user)
-	if(on && user.zone_sel.selecting == BP_EYES)
+	if(on && (user.zone_sel.selecting == BP_R_EYE || user.zone_sel.selecting == BP_L_EYE))
 
 		if((MUTATION_CLUMSY in user.mutations) && prob(50))	//too dumb to use flashlight properly
 			return ..()	//just hit them in the head
@@ -78,13 +78,13 @@
 					return
 
 			var/obj/item/organ/vision
-			if(!H.species.vision_organ || !H.should_have_organ(H.species.vision_organ))
+			if(!H.species.vision_organs[user.zone_sel.selecting] || !H.should_have_organ(H.species.vision_organs[user.zone_sel.selecting]))
 				to_chat(user, "<span class='warning'>You can't find anything on [H] to direct [src] into!</span>")
 				return
 
-			vision = H.internal_organs_by_name[H.species.vision_organ]
+			vision = H.internal_organs_by_name[H.species.vision_organs[user.zone_sel.selecting]]
 			if(!vision)
-				vision = H.species.has_organ[H.species.vision_organ]
+				vision = H.species.has_organ[H.species.vision_organs[user.zone_sel.selecting]]
 				to_chat(user, "<span class='warning'>\The [H] is missing \his [initial(vision.name)]!</span>")
 				return
 

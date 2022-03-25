@@ -40,10 +40,10 @@
 	cold_level_1 = 80
 	cold_level_2 = 50
 	cold_level_3 = -1
-	
+
 	min_age = 1
 	max_age = 100
-	
+
 	gluttonous = GLUT_TINY|GLUT_ITEM_NORMAL
 	stomach_capacity = 12
 
@@ -73,7 +73,8 @@
 		BP_LIVER =      /obj/item/organ/internal/liver/vox,
 		BP_KIDNEYS =    /obj/item/organ/internal/kidneys/vox,
 		BP_BRAIN =      /obj/item/organ/internal/brain,
-		BP_EYES =       /obj/item/organ/internal/eyes/vox,
+		BP_L_EYE =      /obj/item/organ/internal/eye/vox,
+		BP_R_EYE =      /obj/item/organ/internal/eye/right/vox,
 		BP_STACK =      /obj/item/organ/internal/voxstack,
 		BP_HINDTONGUE = /obj/item/organ/internal/hindtongue
 		)
@@ -136,7 +137,7 @@
 /datum/species/vox/disfigure_msg(var/mob/living/carbon/human/H)
 	var/datum/gender/T = gender_datums[H.get_gender()]
 	return "<span class='danger'>[T.His] beak-segments are cracked and chipped! [T.He] [T.is] not even recognizable.</span>\n"
-	
+
 /datum/species/vox/skills_from_age(age)
 	. = 8
 
@@ -161,7 +162,10 @@
 	burn_mod = 0.8
 	strength = STR_HIGH
 
-	override_organ_types = list(BP_EYES = /obj/item/organ/internal/eyes/vox/armalis)
+	override_organ_types = list(
+		BP_L_EYE = /obj/item/organ/internal/eye/vox/armalis,
+		BP_R_EYE = /obj/item/organ/internal/eye/right/vox/armalis
+		)
 
 	descriptors = list(
 		/datum/mob_descriptor/height = 2,

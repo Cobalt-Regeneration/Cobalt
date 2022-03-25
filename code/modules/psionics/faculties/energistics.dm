@@ -16,7 +16,7 @@
 	use_description = "Target the head, eyes or mouth while on harm intent to use a melee attack that causes a localized electromagnetic pulse."
 
 /decl/psionic_power/energistics/disrupt/invoke(var/mob/living/user, var/mob/living/target)
-	if(user.zone_sel.selecting != BP_HEAD && user.zone_sel.selecting != BP_EYES && user.zone_sel.selecting != BP_MOUTH)
+	if(user.zone_sel.selecting != BP_HEAD && user.zone_sel.selecting != BP_L_EYE && user.zone_sel.selecting != BP_R_EYE && user.zone_sel.selecting != BP_MOUTH)
 		return FALSE
 	if(istype(target, /turf))
 		return FALSE

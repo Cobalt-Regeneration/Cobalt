@@ -434,10 +434,15 @@
 	M.eye_blind = max(M.eye_blind - 5, 0)
 	if(ishuman(M))
 		var/mob/living/carbon/human/H = M
-		var/obj/item/organ/internal/eyes/E = H.internal_organs_by_name[BP_EYES]
-		if(E && istype(E))
-			if(E.damage > 0)
-				E.damage = max(E.damage - 5 * removed, 0)
+		var/obj/item/organ/internal/eye/l_eye = H.internal_organs_by_name[BP_L_EYE]
+		if(l_eye && istype(l_eye))
+			if(l_eye.damage > 0)
+				l_eye.damage = max(l_eye.damage - 5 * removed, 0)
+
+		var/obj/item/organ/internal/eye/r_eye = H.internal_organs_by_name[BP_R_EYE]
+		if(r_eye && istype(r_eye))
+			if(r_eye.damage > 0)
+				r_eye.damage = max(r_eye.damage - 5 * removed, 0)
 
 /datum/reagent/peridaxon
 	name = "Peridaxon"

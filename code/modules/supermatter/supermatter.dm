@@ -396,10 +396,11 @@
 		env.merge(removed)
 
 	for(var/mob/living/carbon/human/subject in view(src, min(7, round(sqrt(power/6)))))
-		var/obj/item/organ/internal/eyes/eyes = subject.internal_organs_by_name[BP_EYES]
-		if (!eyes)
+		var/obj/item/organ/internal/eye/l_eye = subject.internal_organs_by_name[BP_L_EYE]
+		var/obj/item/organ/internal/eye/r_eye = subject.internal_organs_by_name[BP_R_EYE]
+		if (!l_eye && !r_eye)
 			continue
-		if (BP_IS_ROBOTIC(eyes))
+		if (BP_IS_ROBOTIC(l_eye) && BP_IS_ROBOTIC(r_eye)) // Both have to be robotic to protect
 			continue
 		if(subject.has_meson_effect())
 			continue

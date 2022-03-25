@@ -13,7 +13,7 @@
 	surgery_candidate_flags = SURGERY_NO_ROBOTIC | SURGERY_NO_CRYSTAL | SURGERY_NO_STUMP
 
 /decl/surgery_step/generic/assess_bodypart(mob/living/user, mob/living/carbon/human/target, target_zone, obj/item/tool)
-	if(target_zone != BP_EYES) //there are specific steps for eye surgery
+	if(target_zone != BP_L_EYE && target_zone != BP_R_EYE) //there are specific steps for eye surgery
 		. = ..()
 
 //////////////////////////////////////////////////////////////////

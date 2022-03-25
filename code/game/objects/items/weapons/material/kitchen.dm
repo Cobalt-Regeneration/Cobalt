@@ -30,10 +30,10 @@
 		return ..()
 
 	if(user.a_intent != I_HELP)
-		if(user.zone_sel.selecting == BP_HEAD || user.zone_sel.selecting == BP_EYES)
+		if(user.zone_sel.selecting == BP_L_EYE || user.zone_sel.selecting == BP_R_EYE)
 			if((MUTATION_CLUMSY in user.mutations) && prob(50))
 				M = user
-			return eyestab(M,user)
+			return eyestab(M,user,user.zone_sel.selecting)
 		else
 			return ..()
 

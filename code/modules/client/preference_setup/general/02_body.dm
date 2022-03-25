@@ -199,8 +199,10 @@ var/global/list/valid_bloodtypes = list("A+", "A-", "B+", "B-", "AB+", "AB-", "O
 				organ_name = "right hand"
 			if(BP_HEART)
 				organ_name = BP_HEART
-			if(BP_EYES)
-				organ_name = BP_EYES
+			if(BP_L_EYE)
+				organ_name = "left eye"
+			if(BP_R_EYE)
+				organ_name = "right eye"
 			if(BP_BRAIN)
 				organ_name = BP_BRAIN
 			if(BP_LUNGS)
@@ -250,7 +252,7 @@ var/global/list/valid_bloodtypes = list("A+", "A-", "B+", "B-", "AB+", "AB-", "O
 					. += "\tPacemaker-assisted [organ_name]"
 				if("voicebox") //on adding voiceboxes for speaking skrell/similar replacements
 					. += "\tSurgically altered [organ_name]"
-				if(BP_EYES)
+				if(BP_L_EYE, BP_R_EYE)
 					. += "\tRetinal overlayed [organ_name]"
 				if(BP_BRAIN)
 					. += "\tMachine-interface [organ_name]"
@@ -580,7 +582,7 @@ var/global/list/valid_bloodtypes = list("A+", "A-", "B+", "B-", "AB+", "AB-", "O
 					for(var/other_limb in (BP_ALL_LIMBS - BP_CHEST))
 						pref.organ_data[other_limb] = null
 						pref.rlimb_data[other_limb] = null
-						for(var/internal_organ in list(BP_HEART,BP_EYES,BP_LUNGS,BP_LIVER,BP_KIDNEYS,BP_STOMACH,BP_BRAIN))
+						for(var/internal_organ in list(BP_HEART,BP_L_EYE,BP_R_EYE,BP_LUNGS,BP_LIVER,BP_KIDNEYS,BP_STOMACH,BP_BRAIN))
 							pref.organ_data[internal_organ] = null
 				pref.organ_data[limb] = null
 				pref.rlimb_data[limb] = null
@@ -630,21 +632,23 @@ var/global/list/valid_bloodtypes = list("A+", "A-", "B+", "B-", "AB+", "AB-", "O
 						pref.rlimb_data[other_limb] = choice
 					if(!pref.organ_data[BP_BRAIN])
 						pref.organ_data[BP_BRAIN] = "assisted"
-					for(var/internal_organ in list(BP_HEART,BP_EYES,BP_LUNGS,BP_LIVER,BP_KIDNEYS))
+					for(var/internal_organ in list(BP_HEART,BP_L_EYE,BP_R_EYE,BP_LUNGS,BP_LIVER,BP_KIDNEYS))
 						pref.organ_data[internal_organ] = "mechanical"
 
 		return TOPIC_REFRESH_UPDATE_PREVIEW
 
 	else if(href_list["organs"])
-		var/organ_name = input(user, "Which internal function do you want to change?") as null|anything in list("Heart", "Eyes", "Lungs", "Liver", "Kidneys", "Stomach")
+		var/organ_name = input(user, "Which internal function do you want to change?") as null|anything in list("Heart", "Left Eye", "Right Eye", "Lungs", "Liver", "Kidneys", "Stomach")
 		if(!organ_name) return
 
 		var/organ = null
 		switch(organ_name)
 			if("Heart")
 				organ = BP_HEART
-			if("Eyes")
-				organ = BP_EYES
+			if("Left Eye")
+				organ = BP_L_EYE
+			if("Right Eye")
+				organ = BP_R_EYE
 			if("Lungs")
 				organ = BP_LUNGS
 			if("Liver")

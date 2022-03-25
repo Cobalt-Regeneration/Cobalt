@@ -568,8 +568,8 @@
 ///Returns a number between -1 to 2
 /mob/living/carbon/human/eyecheck()
 	var/total_protection = flash_protection
-	if(species.has_organ[species.vision_organ])
-		var/obj/item/organ/internal/eyes/I = internal_organs_by_name[species.vision_organ]
+	if(species.has_organ[species.vision_organs])
+		var/obj/item/organ/internal/eyes/I = internal_organs_by_name[species.vision_organs]
 		if(!I?.is_usable())
 			return FLASH_PROTECTION_MAJOR
 		else
@@ -579,29 +579,29 @@
 	return total_protection
 
 /mob/living/carbon/human/flash_eyes(var/intensity = FLASH_PROTECTION_MODERATE, override_blindness_check = FALSE, affect_silicon = FALSE, visual = FALSE, type = /obj/screen/fullscreen/flash)
-	if(species.has_organ[species.vision_organ])
-		var/obj/item/organ/internal/eyes/I = internal_organs_by_name[species.vision_organ]
+	if(species.has_organ[species.vision_organs])
+		var/obj/item/organ/internal/eyes/I = internal_organs_by_name[species.vision_organs]
 		if(!isnull(I))
 			I.additional_flash_effects(intensity)
 	return ..()
 
 /mob/living/carbon/human/proc/getFlashMod()
-	if(species.vision_organ)
-		var/obj/item/organ/internal/eyes/I = internal_organs_by_name[species.vision_organ]
+	if(species.vision_organs)
+		var/obj/item/organ/internal/eyes/I = internal_organs_by_name[species.vision_organs]
 		if(istype(I))
 			return I.flash_mod
 	return species.flash_mod
 
 /mob/living/carbon/human/proc/getDarkvisionRange()
-	if(species.vision_organ)
-		var/obj/item/organ/internal/eyes/I = internal_organs_by_name[species.vision_organ]
+	if(species.vision_organs)
+		var/obj/item/organ/internal/eyes/I = internal_organs_by_name[species.vision_organs]
 		if(istype(I))
 			return I.darksight_range
 	return species.darksight_range
 
 /mob/living/carbon/human/proc/getDarkvisionTint()
-	if(species.vision_organ)
-		var/obj/item/organ/internal/eyes/I = internal_organs_by_name[species.vision_organ]
+	if(species.vision_organs)
+		var/obj/item/organ/internal/eyes/I = internal_organs_by_name[species.vision_organs]
 		if(istype(I))
 			return I.darksight_tint
 	return species.darksight_tint
@@ -1443,10 +1443,11 @@
 			return 1
 	return 0
 
-/mob/living/carbon/human/has_eyes()
-	if(internal_organs_by_name[BP_EYES])
-		var/obj/item/organ/internal/eyes = internal_organs_by_name[BP_EYES]
-		if(eyes && eyes.is_usable())
+/mob/living/carbon/human/has_eyes() // Checks if mob has at least one functioning eye
+	if(internal_organs_by_name[BP_L_EYE] || internal_organs_by_name[BP_R_EYE])
+		var/obj/item/organ/internal/l_eye = internal_organs_by_name[BP_L_EYE]
+		var/obj/item/organ/internal/r_eye = internal_organs_by_name[BP_R_EYE]
+		if((l_eye && l_eye.is_usable()) || (r_eye && r_eye.is_usable()))
 			return 1
 	return 0
 

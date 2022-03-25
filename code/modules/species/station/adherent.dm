@@ -88,7 +88,8 @@
 
 	has_organ = list(
 		BP_BRAIN =        /obj/item/organ/internal/brain/adherent,
-		BP_EYES =         /obj/item/organ/internal/eyes/adherent,
+		BP_L_EYE =        /obj/item/organ/internal/eye/adherent,
+		BP_R_EYE =        /obj/item/organ/internal/eye/right/adherent,
 		BP_JETS =         /obj/item/organ/internal/powered/jets,
 		BP_FLOAT =        /obj/item/organ/internal/powered/float,
 		BP_CELL =         /obj/item/organ/internal/cell/adherent,
