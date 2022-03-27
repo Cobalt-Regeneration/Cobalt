@@ -567,43 +567,59 @@
 ///eyecheck()
 ///Returns a number between -1 to 2
 /mob/living/carbon/human/eyecheck()
-	var/total_protection = flash_protection
-	if(species.has_organ[species.vision_organs])
-		var/obj/item/organ/internal/eyes/I = internal_organs_by_name[species.vision_organs]
-		if(!I?.is_usable())
-			return FLASH_PROTECTION_MAJOR
-		else
-			total_protection = I.get_total_protection(flash_protection)
-	else // They can't be flashed if they don't have eyes.
+	if(!has_eyes()) // They can't be flashed if they don't have working eyes.
 		return FLASH_PROTECTION_MAJOR
+	var/total_protection = flash_protection
+	var/sum_protection = 0
+	for(var/slot in list(BP_L_EYE, BP_R_EYE))
+		var/obj/item/organ/internal/eye/I = internal_organs_by_name[slot]
+		if(I)
+			sum_protection += I.get_total_protection(flash_protection)
+	if(sum_protection)
+		total_protection = sum_protection / 2 // Average protection of both eyes
 	return total_protection
 
 /mob/living/carbon/human/flash_eyes(var/intensity = FLASH_PROTECTION_MODERATE, override_blindness_check = FALSE, affect_silicon = FALSE, visual = FALSE, type = /obj/screen/fullscreen/flash)
-	if(species.has_organ[species.vision_organs])
-		var/obj/item/organ/internal/eyes/I = internal_organs_by_name[species.vision_organs]
-		if(!isnull(I))
+	for(var/slot in list(BP_L_EYE, BP_R_EYE))
+		var/obj/item/organ/internal/eye/I = internal_organs_by_name[slot]
+		if(I)
 			I.additional_flash_effects(intensity)
 	return ..()
 
 /mob/living/carbon/human/proc/getFlashMod()
 	if(species.vision_organs)
-		var/obj/item/organ/internal/eyes/I = internal_organs_by_name[species.vision_organs]
-		if(istype(I))
-			return I.flash_mod
+		var/average_mod = 0
+		var/eye_count = 0
+		for(var/slot in list(BP_L_EYE, BP_R_EYE))
+			var/obj/item/organ/internal/eye/I = internal_organs_by_name[slot]
+			if(I)
+				average_mod += I.flash_mod
+				eye_count++
+		return average_mod / eye_count // Get average flashmod
 	return species.flash_mod
 
 /mob/living/carbon/human/proc/getDarkvisionRange()
 	if(species.vision_organs)
-		var/obj/item/organ/internal/eyes/I = internal_organs_by_name[species.vision_organs]
-		if(istype(I))
-			return I.darksight_range
+		var/average_range = 0
+		var/eye_count = 0
+		for(var/slot in list(BP_L_EYE, BP_R_EYE))
+			var/obj/item/organ/internal/eye/I = internal_organs_by_name[slot]
+			if(I)
+				average_range += I.darksight_range
+				eye_count++
+		return average_range / eye_count // Get everage darksight range
 	return species.darksight_range
 
 /mob/living/carbon/human/proc/getDarkvisionTint()
 	if(species.vision_organs)
-		var/obj/item/organ/internal/eyes/I = internal_organs_by_name[species.vision_organs]
-		if(istype(I))
-			return I.darksight_tint
+		var/average_tint = 0
+		var/eye_count = 0
+		for(var/slot in list(BP_L_EYE, BP_R_EYE))
+			var/obj/item/organ/internal/eye/I = internal_organs_by_name[slot]
+			if(I)
+				average_tint += I.darksight_tint
+				eye_count++
+		return average_tint / eye_count // Get average darksight tint
 	return species.darksight_tint
 
 //Used by various things that knock people out by applying blunt trauma to the head.

@@ -179,41 +179,43 @@
 	return istype(get_equipped_item(slot_l_ear), /obj/item/device/radio/headset) || istype(get_equipped_item(slot_r_ear), /obj/item/device/radio/headset)
 
 /mob/living/carbon/human/welding_eyecheck()
-	var/obj/item/organ/internal/eyes/E = src.internal_organs_by_name[species.vision_organs]
-	if(!E)
-		return
-	var/safety = eyecheck()
-	switch(safety)
-		if(FLASH_PROTECTION_MODERATE)
-			to_chat(src, "<span class='warning'>Your eyes sting a little.</span>")
-			E.damage += rand(1, 2)
-			if(E.damage > 12)
-				eye_blurry += rand(3,6)
-		if(FLASH_PROTECTION_MINOR)
-			to_chat(src, "<span class='warning'>Your eyes stings!</span>")
-			E.damage += rand(1, 4)
-			if(E.damage > 10)
-				eye_blurry += rand(3,6)
+	for(var/slot in list(BP_L_EYE, BP_R_EYE))
+		var/obj/item/organ/internal/eye/E = src.internal_organs_by_name[slot]
+		var/eye_name = "[eyes.organ_tag == BP_L_EYE ? "left" : "right"] eye"
+		if(!E)
+			return
+		var/safety = E.flash_mod + flash_protection
+		switch(safety)
+			if(FLASH_PROTECTION_MODERATE)
+				to_chat(src, "<span class='warning'>Your [eye_name] stings a little.</span>")
+				E.damage += rand(1, 2)
+				if(E.damage > 12)
+					eye_blurry += rand(3,6)
+			if(FLASH_PROTECTION_MINOR)
+				to_chat(src, "<span class='warning'>Your [eye_name] stings!</span>")
 				E.damage += rand(1, 4)
-		if(FLASH_PROTECTION_NONE)
-			to_chat(src, "<span class='warning'>Your eyes burn!</span>")
-			E.damage += rand(2, 4)
+				if(E.damage > 10)
+					eye_blurry += rand(3,6)
+					E.damage += rand(1, 4)
+			if(FLASH_PROTECTION_NONE)
+				to_chat(src, "<span class='warning'>Your [eye_name] burns!</span>")
+				E.damage += rand(2, 4)
+				if(E.damage > 10)
+					E.damage += rand(4,10)
+			if(FLASH_PROTECTION_REDUCED)
+				to_chat(src, "<span class='danger'>Your equipment intensifies the welder's glow. Your [eye_name] itches and burns severely.</span>")
+				eye_blurry += rand(12,20)
+				E.damage += rand(12, 16)
+		if(safety<FLASH_PROTECTION_MAJOR)
 			if(E.damage > 10)
-				E.damage += rand(4,10)
-		if(FLASH_PROTECTION_REDUCED)
-			to_chat(src, "<span class='danger'>Your equipment intensifies the welder's glow. Your eyes itch and burn severely.</span>")
-			eye_blurry += rand(12,20)
-			E.damage += rand(12, 16)
-	if(safety<FLASH_PROTECTION_MAJOR)
-		if(E.damage > 10)
-			to_chat(src, "<span class='warning'>Your eyes are really starting to hurt. This can't be good for you!</span>")
-		if (E.damage >= E.min_bruised_damage)
-			to_chat(src, "<span class='danger'>You go blind!</span>")
-			eye_blind = 5
-			eye_blurry = 5
-			disabilities |= NEARSIGHTED
-			spawn(100)
-				disabilities &= ~NEARSIGHTED
+				to_chat(src, "<span class='warning'>Your [eye_name] is really starting to hurt. This can't be good for you!</span>")
+			if (E.damage >= E.min_bruised_damage)
+				to_chat(src, "<span class='danger'>Your [eye_name] goes blind!</span>")
+				eye_blind = 5
+				eye_blurry = 5
+				disabilities |= NEARSIGHTED
+				spawn(100)
+					disabilities &= ~NEARSIGHTED
 
 /mob/living/carbon/human/proc/make_grab(var/mob/living/carbon/human/attacker, var/mob/living/carbon/human/victim, var/grab_tag)
 	var/obj/item/grab/G
