@@ -179,9 +179,11 @@
 	return istype(get_equipped_item(slot_l_ear), /obj/item/device/radio/headset) || istype(get_equipped_item(slot_r_ear), /obj/item/device/radio/headset)
 
 /mob/living/carbon/human/welding_eyecheck()
-	for(var/slot in list(BP_L_EYE, BP_R_EYE))
+	if(!species.vision_organs)
+		return
+	for(var/slot in species.vision_organs)
 		var/obj/item/organ/internal/eye/E = src.internal_organs_by_name[slot]
-		var/eye_name = "[eyes.organ_tag == BP_L_EYE ? "left" : "right"] eye"
+		var/eye_name = "[E.organ_tag == BP_L_EYE ? "left" : "right"] eye"
 		if(!E)
 			return
 		var/safety = E.flash_mod + flash_protection

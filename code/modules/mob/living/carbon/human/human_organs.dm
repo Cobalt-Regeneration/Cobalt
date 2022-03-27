@@ -1,8 +1,9 @@
 /mob/living/carbon/human/proc/update_eyes()
-	for(var/slot in list(BP_L_EYE, BP_R_EYE)) // go through L and R eyes
-		var/obj/item/organ/internal/eye/eye = internal_organs_by_name[slot]
-		if(eye)
-			eye.update_colour()
+	if(species.vision_organs)
+		for(var/slot in species.vision_organs) // go through vision organs
+			var/obj/item/organ/internal/eye/eye = internal_organs_by_name[slot]
+			if(eye)
+				eye.update_colour()
 	regenerate_icons()
 
 /mob/living/carbon/human/proc/get_bodypart_name(var/zone)

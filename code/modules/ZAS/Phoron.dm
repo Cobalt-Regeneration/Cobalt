@@ -116,15 +116,16 @@ obj/var/contaminated = 0
 
 
 /mob/living/carbon/human/proc/burn_eyes()
-	for(var/slot in list(BP_L_EYE, BP_R_EYE))
-		var/obj/item/organ/internal/eye/E = internal_organs_by_name[slot]
-		if(E && !E.phoron_guard)
-			if(prob(20)) to_chat(src, "<span class='danger'>Your eyes burn!</span>")
-			E.damage += 2.5
-			eye_blurry = min(eye_blurry+1.5,50)
-			if (prob(max(0,E.damage - 15) + 1) &&!eye_blind)
-				to_chat(src, "<span class='danger'>You are blinded!</span>")
-				eye_blind += 20
+	if(species.vision_organs)
+		for(var/slot in species.vision_organs)
+			var/obj/item/organ/internal/eye/E = internal_organs_by_name[slot]
+			if(E && !E.phoron_guard)
+				if(prob(20)) to_chat(src, "<span class='danger'>Your eyes burn!</span>")
+				E.damage += 2.5
+				eye_blurry = min(eye_blurry+1.5,50)
+				if (prob(max(0,E.damage - 15) + 1) &&!eye_blind)
+					to_chat(src, "<span class='danger'>You are blinded!</span>")
+					eye_blind += 20
 
 /mob/living/carbon/human/proc/pl_head_protected()
 	//Checks if the head is adequately sealed.

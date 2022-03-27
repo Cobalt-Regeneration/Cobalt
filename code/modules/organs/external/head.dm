@@ -27,18 +27,20 @@
 /obj/item/organ/external/head/proc/get_eye_overlay()
 	if(glowing_eyes)
 		var/list/overlay_list = list()
-		for(var/slot in list(BP_L_EYE, BP_R_EYE))
-			var/obj/item/organ/internal/eye/E = owner.internal_organs_by_name[slot]
-			if(E)
-				overlay_list += E.get_special_overlay()
+		if(species.vision_organs)
+			for(var/slot in species.vision_organs)
+				var/obj/item/organ/internal/eye/E = owner.internal_organs_by_name[slot]
+				if(E)
+					overlay_list += E.get_special_overlay()
 		return overlay_list
 
 /obj/item/organ/external/head/proc/get_eyes()
 	var/list/icon_list = list()
-	for(var/slot in list(BP_L_EYE, BP_R_EYE))
-		var/obj/item/organ/internal/eye/E = owner.internal_organs_by_name[slot]
-		if(E)
-			icon_list += E.get_onhead_icon()
+	if(species.vision_organs)
+		for(var/slot in species.vision_organs)
+			var/obj/item/organ/internal/eye/E = owner.internal_organs_by_name[slot]
+			if(E)
+				icon_list += E.get_onhead_icon()
 	return icon_list
 
 /obj/item/organ/external/head/examine(mob/user)

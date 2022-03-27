@@ -6,7 +6,7 @@
 
 /obj/item/organ/external/head/insectoid/nabber/get_eye_overlay()
 	var/list/overlay_list = list()
-	for(var/slot in list(BP_L_EYE, BP_R_EYE))
+	for(var/slot in species.vision_organs)
 		var/obj/item/organ/internal/eye/E = owner.internal_organs_by_name[slot]
 		if(E)
 			overlay_list += E.get_special_overlay()

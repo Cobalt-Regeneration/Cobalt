@@ -571,26 +571,28 @@
 		return FLASH_PROTECTION_MAJOR
 	var/total_protection = flash_protection
 	var/sum_protection = 0
-	for(var/slot in list(BP_L_EYE, BP_R_EYE))
-		var/obj/item/organ/internal/eye/I = internal_organs_by_name[slot]
-		if(I)
-			sum_protection += I.get_total_protection(flash_protection)
+	if(species.vision_organs)
+		for(var/slot in species.vision_organs)
+			var/obj/item/organ/internal/eye/I = internal_organs_by_name[slot]
+			if(I)
+				sum_protection += I.get_total_protection(flash_protection)
 	if(sum_protection)
 		total_protection = sum_protection / 2 // Average protection of both eyes
 	return total_protection
 
 /mob/living/carbon/human/flash_eyes(var/intensity = FLASH_PROTECTION_MODERATE, override_blindness_check = FALSE, affect_silicon = FALSE, visual = FALSE, type = /obj/screen/fullscreen/flash)
-	for(var/slot in list(BP_L_EYE, BP_R_EYE))
-		var/obj/item/organ/internal/eye/I = internal_organs_by_name[slot]
-		if(I)
-			I.additional_flash_effects(intensity)
+	if(species.vision_organs)
+		for(var/slot in species.vision_organs)
+			var/obj/item/organ/internal/eye/I = internal_organs_by_name[slot]
+			if(I)
+				I.additional_flash_effects(intensity)
 	return ..()
 
 /mob/living/carbon/human/proc/getFlashMod()
 	if(species.vision_organs)
 		var/average_mod = 0
 		var/eye_count = 0
-		for(var/slot in list(BP_L_EYE, BP_R_EYE))
+		for(var/slot in species.vision_organs)
 			var/obj/item/organ/internal/eye/I = internal_organs_by_name[slot]
 			if(I)
 				average_mod += I.flash_mod
@@ -602,7 +604,7 @@
 	if(species.vision_organs)
 		var/average_range = 0
 		var/eye_count = 0
-		for(var/slot in list(BP_L_EYE, BP_R_EYE))
+		for(var/slot in species.vision_organs)
 			var/obj/item/organ/internal/eye/I = internal_organs_by_name[slot]
 			if(I)
 				average_range += I.darksight_range
@@ -614,7 +616,7 @@
 	if(species.vision_organs)
 		var/average_tint = 0
 		var/eye_count = 0
-		for(var/slot in list(BP_L_EYE, BP_R_EYE))
+		for(var/slot in species.vision_organs)
 			var/obj/item/organ/internal/eye/I = internal_organs_by_name[slot]
 			if(I)
 				average_tint += I.darksight_tint
