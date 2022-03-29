@@ -20,11 +20,11 @@
 	color = "#0033cc"
 
 /obj/item/organ/internal/eye/vox
-	eye_icon = 'icons/mob/human_races/species/vox/eyes.dmi'
+	eye_icon = 'icons/mob/human_races/species/vox/left_eye.dmi'
 	color = "#0033cc"
 
 /obj/item/organ/internal/eye/right/vox
-	eye_icon = 'icons/mob/human_races/species/vox/eyes.dmi'
+	eye_icon = 'icons/mob/human_races/species/vox/right_eye.dmi'
 	color = "#0033cc"
 
 /obj/item/organ/internal/eye/vox/armalis

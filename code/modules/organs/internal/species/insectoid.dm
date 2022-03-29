@@ -22,8 +22,8 @@
 
 /obj/item/organ/internal/eye/insectoid
 	name = "left compound ocellus"
-	icon_state = "eyes-compound"
+	icon_state = "eye-compound"
 
 /obj/item/organ/internal/eye/right/insectoid
 	name = "right compound ocellus"
-	icon_state = "eyes-compound"
+	icon_state = "eye-compound"

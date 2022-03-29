@@ -196,7 +196,7 @@ var/list/holder_mob_icon_cache = list()
 
 		var/skin_colour = rgb(owner.r_skin, owner.g_skin, owner.b_skin)
 		var/hair_colour = rgb(owner.r_hair, owner.g_hair, owner.b_hair)
-		var/eye_colour =  rgb(owner.r_eyes, owner.g_eyes, owner.b_eyes)
+		var/eye_colour =  rgb(owner.r_l_eye, owner.g_l_eye, owner.b_l_eye)
 		var/species_name = lowertext(owner.species.get_bodytype(owner))
 
 		for(var/cache_entry in generate_for_slots)

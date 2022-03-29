@@ -236,9 +236,13 @@ datum/preferences
 	character.age = age
 	character.b_type = b_type
 
-	character.r_eyes = r_eyes
-	character.g_eyes = g_eyes
-	character.b_eyes = b_eyes
+	character.r_l_eye = r_l_eye
+	character.g_l_eye = g_l_eye
+	character.b_l_eye = b_l_eye
+
+	character.r_r_eye = r_r_eye
+	character.g_r_eye = g_r_eye
+	character.b_r_eye = b_r_eye
 
 	character.h_style = h_style
 	character.r_hair = r_hair

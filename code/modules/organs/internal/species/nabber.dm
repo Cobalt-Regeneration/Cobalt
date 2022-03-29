@@ -10,13 +10,9 @@
 	name = "left compound eye"
 	innate_flash_protection = FLASH_PROTECTION_VULNERABLE
 	phoron_guard = 1
-	action_button_name = "Toggle Eye Shield"
-	eye_icon = 'icons/mob/human_races/species/nabber/eyes.dmi'
+	action_button_name = "Toggle Left Eye Shield"
+	eye_icon = 'icons/mob/human_races/species/nabber/left_eye.dmi'
 	var/eye_shielded
-
-/obj/item/organ/internal/eye/insectoid/msq
-	name = "left compound eye"
-	eye_icon = 'icons/mob/human_races/species/nabber/msq/eyes.dmi'
 
 /obj/item/organ/internal/eye/insectoid/nabber/get_special_overlay()
 	var/icon/I = get_onhead_icon()
@@ -46,12 +42,12 @@
 	if(.)
 		eye_shielded = !eye_shielded
 		if(eye_shielded)
-			to_chat(owner, "<span class='notice'>Nearly opaque lenses slide down to shield your eyes.</span>")
+			to_chat(owner, "<span class='notice'>A nearly opaque lens slides down to shield your left eye.</span>")
 			innate_flash_protection = FLASH_PROTECTION_MAJOR
 			owner.overlay_fullscreen("eyeshield", /obj/screen/fullscreen/blind)
 			owner.update_icons()
 		else
-			to_chat(owner, "<span class='notice'>Your protective lenses retract out of the way.</span>")
+			to_chat(owner, "<span class='notice'>Your protective lens retracts out of the way.</span>")
 			innate_flash_protection = FLASH_PROTECTION_VULNERABLE
 			addtimer(CALLBACK(src, .proc/remove_shield), 1 SECONDS)
 			owner.update_icons()
@@ -60,26 +56,17 @@
 /obj/item/organ/internal/eye/insectoid/nabber/proc/remove_shield()
 	owner.clear_fullscreen("eyeshield")
 
-/obj/item/organ/internal/eye/nabber/New(var/mob/living/carbon/holder)
-	. = ..()
-	if(dna)
-		color = rgb(dna.GetUIValue(DNA_UI_EYES_R), dna.GetUIValue(DNA_UI_EYES_G), dna.GetUIValue(DNA_UI_EYES_B))
-
 /obj/item/organ/internal/eye/insectoid/nabber/set_dna(var/datum/dna/new_dna)
 	. = ..()
-	color = rgb(new_dna.GetUIValue(DNA_UI_EYES_R), new_dna.GetUIValue(DNA_UI_EYES_G), new_dna.GetUIValue(DNA_UI_EYES_B))
+	color = rgb(new_dna.GetUIValue(DNA_UI_L_EYE_R), new_dna.GetUIValue(DNA_UI_L_EYE_B), new_dna.GetUIValue(DNA_UI_L_EYE_G))
 
 /obj/item/organ/internal/eye/right/insectoid/nabber
 	name = "right compound eye"
 	innate_flash_protection = FLASH_PROTECTION_VULNERABLE
 	phoron_guard = 1
-	action_button_name = "Toggle Eye Shield"
-	eye_icon = 'icons/mob/human_races/species/nabber/eyes.dmi'
+	action_button_name = "Toggle Right Eye Shield"
+	eye_icon = 'icons/mob/human_races/species/nabber/right_eye.dmi'
 	var/eye_shielded
-
-/obj/item/organ/internal/eye/right/insectoid/msq
-	name = "right compound eye"
-	eye_icon = 'icons/mob/human_races/species/nabber/msq/eyes.dmi'
 
 /obj/item/organ/internal/eye/right/insectoid/nabber/get_special_overlay()
 	var/icon/I = get_onhead_icon()
@@ -109,12 +96,12 @@
 	if(.)
 		eye_shielded = !eye_shielded
 		if(eye_shielded)
-			to_chat(owner, "<span class='notice'>Nearly opaque lenses slide down to shield your eyes.</span>")
+			to_chat(owner, "<span class='notice'>A nearly opaque lens slides down to shield your right eye.</span>")
 			innate_flash_protection = FLASH_PROTECTION_MAJOR
 			owner.overlay_fullscreen("eyeshield", /obj/screen/fullscreen/blind)
 			owner.update_icons()
 		else
-			to_chat(owner, "<span class='notice'>Your protective lenses retract out of the way.</span>")
+			to_chat(owner, "<span class='notice'>Your protective lens retracts out of the way.</span>")
 			innate_flash_protection = FLASH_PROTECTION_VULNERABLE
 			addtimer(CALLBACK(src, .proc/remove_shield), 1 SECONDS)
 			owner.update_icons()
@@ -123,14 +110,9 @@
 /obj/item/organ/internal/eye/right/insectoid/nabber/proc/remove_shield()
 	owner.clear_fullscreen("eyeshield")
 
-/obj/item/organ/internal/eye/right/nabber/New(var/mob/living/carbon/holder)
-	. = ..()
-	if(dna)
-		color = rgb(dna.GetUIValue(DNA_UI_EYES_R), dna.GetUIValue(DNA_UI_EYES_G), dna.GetUIValue(DNA_UI_EYES_B))
-
 /obj/item/organ/internal/eye/right/insectoid/nabber/set_dna(var/datum/dna/new_dna)
 	. = ..()
-	color = rgb(new_dna.GetUIValue(DNA_UI_EYES_R), new_dna.GetUIValue(DNA_UI_EYES_G), new_dna.GetUIValue(DNA_UI_EYES_B))
+	color = rgb(new_dna.GetUIValue(DNA_UI_R_EYE_R), new_dna.GetUIValue(DNA_UI_R_EYE_B), new_dna.GetUIValue(DNA_UI_R_EYE_G))
 
 /obj/item/organ/internal/phoron
 	name = "phoron storage"

@@ -15,9 +15,12 @@ var/global/list/valid_bloodtypes = list("A+", "A-", "B+", "B-", "AB+", "AB-", "O
 	var/r_skin = 0						//Skin color
 	var/g_skin = 0						//Skin color
 	var/b_skin = 0						//Skin color
-	var/r_eyes = 0						//Eye color
-	var/g_eyes = 0						//Eye color
-	var/b_eyes = 0						//Eye color
+	var/r_l_eye = 0						//Left Eye color
+	var/g_l_eye = 0						//Left Eye color
+	var/b_l_eye = 0						//Left Eye color
+	var/r_r_eye = 0						//Right Eye color
+	var/g_r_eye = 0						//Right Eye color
+	var/b_r_eye = 0						//Right Eye color
 	var/s_base = ""						//Base skin colour
 	var/list/body_markings = list()
 	var/list/body_descriptors = list()
@@ -55,9 +58,12 @@ var/global/list/valid_bloodtypes = list("A+", "A-", "B+", "B-", "AB+", "AB-", "O
 	pref.s_base = R.read("skin_base")
 	pref.h_style = R.read("hair_style_name")
 	pref.f_style = R.read("facial_style_name")
-	pref.r_eyes = R.read("eyes_red")
-	pref.g_eyes = R.read("eyes_green")
-	pref.b_eyes = R.read("eyes_blue")
+	pref.r_l_eye = R.read("left_eye_red")
+	pref.g_l_eye = R.read("left_eye_green")
+	pref.b_l_eye = R.read("left_eye_blue")
+	pref.r_r_eye = R.read("right_eye_red")
+	pref.g_r_eye = R.read("right_eye_green")
+	pref.b_r_eye = R.read("right_eye_blue")
 	pref.b_type = R.read("b_type")
 	pref.disabilities = R.read("disabilities")
 	pref.organ_data = R.read("organ_data")
@@ -82,9 +88,12 @@ var/global/list/valid_bloodtypes = list("A+", "A-", "B+", "B-", "AB+", "AB-", "O
 	W.write("skin_blue", pref.b_skin)
 	W.write("hair_style_name", pref.h_style)
 	W.write("facial_style_name", pref.f_style)
-	W.write("eyes_red", pref.r_eyes)
-	W.write("eyes_green", pref.g_eyes)
-	W.write("eyes_blue", pref.b_eyes)
+	W.write("left_eye_red", pref.r_l_eye)
+	W.write("left_eye_green", pref.g_l_eye)
+	W.write("left_eye_blue", pref.b_l_eye)
+	W.write("right_eye_red", pref.r_r_eye)
+	W.write("right_eye_green", pref.g_r_eye)
+	W.write("right_eye_blue", pref.b_r_eye)
 	W.write("b_type", pref.b_type)
 	W.write("disabilities", pref.disabilities)
 	W.write("organ_data", pref.organ_data)
@@ -105,9 +114,12 @@ var/global/list/valid_bloodtypes = list("A+", "A-", "B+", "B-", "AB+", "AB-", "O
 	pref.b_skin			= sanitize_integer(pref.b_skin, 0, 255, initial(pref.b_skin))
 	pref.h_style		= sanitize_inlist(pref.h_style, GLOB.hair_styles_list, initial(pref.h_style))
 	pref.f_style		= sanitize_inlist(pref.f_style, GLOB.facial_hair_styles_list, initial(pref.f_style))
-	pref.r_eyes			= sanitize_integer(pref.r_eyes, 0, 255, initial(pref.r_eyes))
-	pref.g_eyes			= sanitize_integer(pref.g_eyes, 0, 255, initial(pref.g_eyes))
-	pref.b_eyes			= sanitize_integer(pref.b_eyes, 0, 255, initial(pref.b_eyes))
+	pref.r_l_eye		= sanitize_integer(pref.r_l_eye, 0, 255, initial(pref.r_l_eye))
+	pref.g_l_eye		= sanitize_integer(pref.g_l_eye, 0, 255, initial(pref.g_l_eye))
+	pref.b_l_eye		= sanitize_integer(pref.b_l_eye, 0, 255, initial(pref.b_l_eye))
+	pref.r_r_eye		= sanitize_integer(pref.r_r_eye, 0, 255, initial(pref.r_r_eye))
+	pref.g_r_eye		= sanitize_integer(pref.g_r_eye, 0, 255, initial(pref.g_r_eye))
+	pref.b_r_eye		= sanitize_integer(pref.b_r_eye, 0, 255, initial(pref.b_r_eye))
 	pref.b_type			= sanitize_text(pref.b_type, initial(pref.b_type))
 
 	if(!pref.species || !(pref.species in playable_species))
@@ -288,8 +300,11 @@ var/global/list/valid_bloodtypes = list("A+", "A-", "B+", "B-", "AB+", "AB-", "O
 	. += " Style: [UIBUTTON("facial_style=1;decrement", "<", null)][UIBUTTON("facial_style=1;increment", ">", null)]<a href='?src=\ref[src];facial_style=1'>[pref.f_style]</a><br>"
 
 	if(has_flag(mob_species, HAS_EYE_COLOR))
-		. += "<br><b>Eyes</b><br>"
-		. += "<a href='?src=\ref[src];eye_color=1'>Change Color</a> <font face='fixedsys' size='3' color='#[num2hex(pref.r_eyes & 0xFF)][num2hex(pref.g_eyes & 0xFF)][num2hex(pref.b_eyes & 0xFF)]'><table  style='display:inline;' bgcolor='#[num2hex(pref.r_eyes & 0xFF)][num2hex(pref.g_eyes & 0xFF)][num2hex(pref.b_eyes & 0xFF)]'><tr><td>__</td></tr></table></font><br>"
+		. += "<br><b>Left Eye</b><br>"
+		. += "<a href='?src=\ref[src];l_eye_color=1'>Change Color</a> <font face='fixedsys' size='3' color='#[num2hex(pref.r_l_eye & 0xFF)][num2hex(pref.g_l_eye & 0xFF)][num2hex(pref.b_l_eye & 0xFF)]'><table  style='display:inline;' bgcolor='#[num2hex(pref.r_l_eye & 0xFF)][num2hex(pref.g_l_eye & 0xFF)][num2hex(pref.b_l_eye & 0xFF)]'><tr><td>__</td></tr></table></font><br>"
+
+		. += "<br><b>Right Eye</b><br>"
+		. += "<a href='?src=\ref[src];r_eye_color=1'>Change Color</a> <font face='fixedsys' size='3' color='#[num2hex(pref.r_r_eye & 0xFF)][num2hex(pref.g_r_eye & 0xFF)][num2hex(pref.b_r_eye & 0xFF)]'><table  style='display:inline;' bgcolor='#[num2hex(pref.r_r_eye & 0xFF)][num2hex(pref.g_r_eye & 0xFF)][num2hex(pref.b_r_eye & 0xFF)]'><tr><td>__</td></tr></table></font><br>"
 
 	if(has_flag(mob_species, HAS_SKIN_COLOR))
 		. += "<br><b>Body Color</b><br>"
@@ -426,14 +441,24 @@ var/global/list/valid_bloodtypes = list("A+", "A-", "B+", "B-", "AB+", "AB-", "O
 			pref.b_facial = hex2num(copytext(new_facial, 6, 8))
 			return TOPIC_REFRESH_UPDATE_PREVIEW
 
-	else if(href_list["eye_color"])
+	else if(href_list["l_eye_color"])
 		if(!has_flag(mob_species, HAS_EYE_COLOR))
 			return TOPIC_NOACTION
-		var/new_eyes = input(user, "Choose your character's eye colour:", CHARACTER_PREFERENCE_INPUT_TITLE, rgb(pref.r_eyes, pref.g_eyes, pref.b_eyes)) as color|null
+		var/new_eyes = input(user, "Choose your character's left eye color:", CHARACTER_PREFERENCE_INPUT_TITLE, rgb(pref.r_l_eye, pref.g_l_eye, pref.b_l_eye)) as color|null
 		if(new_eyes && has_flag(all_species[pref.species], HAS_EYE_COLOR) && CanUseTopic(user))
-			pref.r_eyes = hex2num(copytext(new_eyes, 2, 4))
-			pref.g_eyes = hex2num(copytext(new_eyes, 4, 6))
-			pref.b_eyes = hex2num(copytext(new_eyes, 6, 8))
+			pref.r_l_eye = hex2num(copytext(new_eyes, 2, 4))
+			pref.g_l_eye = hex2num(copytext(new_eyes, 4, 6))
+			pref.b_l_eye = hex2num(copytext(new_eyes, 6, 8))
+			return TOPIC_REFRESH_UPDATE_PREVIEW
+
+	else if(href_list["r_eye_color"])
+		if(!has_flag(mob_species, HAS_EYE_COLOR))
+			return TOPIC_NOACTION
+		var/new_eyes = input(user, "Choose your character's right eye color:", CHARACTER_PREFERENCE_INPUT_TITLE, rgb(pref.r_r_eye, pref.g_r_eye, pref.b_r_eye)) as color|null
+		if(new_eyes && has_flag(all_species[pref.species], HAS_EYE_COLOR) && CanUseTopic(user))
+			pref.r_r_eye = hex2num(copytext(new_eyes, 2, 4))
+			pref.g_r_eye = hex2num(copytext(new_eyes, 4, 6))
+			pref.b_r_eye = hex2num(copytext(new_eyes, 6, 8))
 			return TOPIC_REFRESH_UPDATE_PREVIEW
 
 	else if(href_list["base_skin"])
