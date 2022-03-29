@@ -2,7 +2,13 @@
 	parent_organ = BP_CHEST
 /obj/item/organ/internal/liver/resomi
 	parent_organ = BP_CHEST
-/obj/item/organ/internal/eyes/resomi
-	name = "avian eyes"
-	desc = "A pair of eyes with abnormally large pupils"
-	eye_icon = 'icons/mob/human_races/species/resomi/eyes.dmi'
+
+/obj/item/organ/internal/eye/resomi
+	name = "left avian eye"
+	desc = "An eye with an abnormally large pupil"
+	eye_icon = 'icons/mob/human_races/species/resomi/left_eye.dmi'
+
+/obj/item/organ/internal/eye/right/resomi
+	name = "right avian eye"
+	desc = "An eye with an abnormally large pupil"
+	eye_icon = 'icons/mob/human_races/species/resomi/right_eye.dmi'

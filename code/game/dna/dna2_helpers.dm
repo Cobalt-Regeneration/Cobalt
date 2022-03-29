@@ -151,9 +151,13 @@
 		H.g_skin   = dna.GetUIValueRange(DNA_UI_SKIN_G,    255)
 		H.b_skin   = dna.GetUIValueRange(DNA_UI_SKIN_B,    255)
 
-		H.r_eyes   = dna.GetUIValueRange(DNA_UI_EYES_R,    255)
-		H.g_eyes   = dna.GetUIValueRange(DNA_UI_EYES_G,    255)
-		H.b_eyes   = dna.GetUIValueRange(DNA_UI_EYES_B,    255)
+		H.r_l_eye   = dna.GetUIValueRange(DNA_UI_L_EYE_R,    255)
+		H.g_l_eye   = dna.GetUIValueRange(DNA_UI_L_EYE_G,    255)
+		H.b_l_eye   = dna.GetUIValueRange(DNA_UI_L_EYE_B,    255)
+
+		H.r_r_eye   = dna.GetUIValueRange(DNA_UI_R_EYE_R,    255)
+		H.g_r_eye   = dna.GetUIValueRange(DNA_UI_R_EYE_G,    255)
+		H.b_r_eye   = dna.GetUIValueRange(DNA_UI_R_EYE_B,    255)
 		H.update_eyes()
 
 		H.s_tone   = 35 - dna.GetUIValueRange(DNA_UI_SKIN_TONE, 220) // Value can be negative.

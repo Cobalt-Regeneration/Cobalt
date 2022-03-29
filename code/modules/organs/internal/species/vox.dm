@@ -19,11 +19,19 @@
 	parent_organ = BP_CHEST
 	color = "#0033cc"
 
-/obj/item/organ/internal/eyes/vox
-	eye_icon = 'icons/mob/human_races/species/vox/eyes.dmi'
+/obj/item/organ/internal/eye/vox
+	eye_icon = 'icons/mob/human_races/species/vox/left_eye.dmi'
 	color = "#0033cc"
 
-/obj/item/organ/internal/eyes/vox/armalis
+/obj/item/organ/internal/eye/right/vox
+	eye_icon = 'icons/mob/human_races/species/vox/right_eye.dmi'
+	color = "#0033cc"
+
+/obj/item/organ/internal/eye/vox/armalis
+	eye_icon = 'icons/mob/human_races/species/vox/armalis_eyes.dmi'
+	color = "#0033cc"
+
+/obj/item/organ/internal/eye/right/vox/armalis
 	eye_icon = 'icons/mob/human_races/species/vox/armalis_eyes.dmi'
 	color = "#0033cc"
 
@@ -141,7 +149,7 @@
 						mat_stack.set_amount(mat_stack.amount + taking_sheets)
 						sheets -= taking_sheets
 						updated_stacks = TRUE
-						
+
 				// Create new stacks if needed.
 				while(sheets > 0)
 					var/obj/item/stack/material/mat_stack = new M.stack_type(src)

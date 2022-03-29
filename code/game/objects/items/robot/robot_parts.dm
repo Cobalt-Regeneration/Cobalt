@@ -159,8 +159,11 @@
 
 			// Robotize remaining organs: Eyes, head, and chest.
 			// Respect brand used.
-			var/obj/item/organ/internal/eyes = H.internal_organs_by_name[BP_EYES]
-			eyes.robotize()
+			var/obj/item/organ/internal/l_eye = H.internal_organs_by_name[BP_L_EYE]
+			l_eye.robotize()
+
+			var/obj/item/organ/internal/r_eye = H.internal_organs_by_name[BP_R_EYE]
+			r_eye.robotize()
 
 			var/obj/item/organ/external/head = H.organs_by_name[BP_HEAD]
 			var/head_company = head_part.model_info

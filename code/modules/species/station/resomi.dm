@@ -83,7 +83,8 @@
 	override_organ_types = list(
 		BP_LIVER =    /obj/item/organ/internal/liver/resomi,
 		BP_KIDNEYS =  /obj/item/organ/internal/kidneys/resomi,
-		BP_EYES = /obj/item/organ/internal/eyes/resomi
+		BP_L_EYE =    /obj/item/organ/internal/eye/resomi,
+		BP_R_EYE =    /obj/item/organ/internal/eye/right/resomi
 		)
 
 	unarmed_types = list(

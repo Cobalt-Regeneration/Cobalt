@@ -184,9 +184,10 @@
 		BP_KIDNEYS =  /obj/item/organ/internal/kidneys,
 		BP_BRAIN =    /obj/item/organ/internal/brain,
 		BP_APPENDIX = /obj/item/organ/internal/appendix,
-		BP_EYES =     /obj/item/organ/internal/eyes
+		BP_L_EYE =    /obj/item/organ/internal/eye,
+		BP_R_EYE =    /obj/item/organ/internal/eye/right
 		)
-	var/vision_organ              // If set, this organ is required for vision. Defaults to "eyes" if the species has them.
+	var/list/vision_organs        // If set, these organs are required for vision. Defaults to BP_L_EYE and BP_R_EYE if the species has them. Formatted as SLOT = /obj/item/organ/internal/path
 	var/breathing_organ           // If set, this organ is required for breathing. Defaults to "lungs" if the species has them.
 
 	var/list/override_organ_types // Used for species that only need to change one or two entries in has_organ.
@@ -329,8 +330,8 @@ The slots that you can use are found in items_clothing.dm and are the inventory 
 		descriptors = descriptor_datums
 
 	//If the species has eyes, they are the default vision organ
-	if(!vision_organ && has_organ[BP_EYES])
-		vision_organ = BP_EYES
+	if(!vision_organs && has_organ[BP_L_EYE] && has_organ[BP_R_EYE])
+		vision_organs = list(BP_L_EYE = has_organ[BP_L_EYE], BP_R_EYE = has_organ[BP_R_EYE])
 	//If the species has lungs, they are the default breathing organ
 	if(!breathing_organ && has_organ[BP_LUNGS])
 		breathing_organ = BP_LUNGS

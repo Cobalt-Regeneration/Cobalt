@@ -46,8 +46,10 @@ var/list/limb_icon_cache = list()
 
 /obj/item/organ/external/head/sync_colour_to_human(var/mob/living/carbon/human/human)
 	..()
-	var/obj/item/organ/internal/eyes/eyes = owner.internal_organs_by_name[BP_EYES]
-	if(eyes) eyes.update_colour()
+	if(species.vision_organs)
+		for(var/slot in species.vision_organs)
+			var/obj/item/organ/internal/eye/eyes = owner.internal_organs_by_name[slot]
+			if(eyes) eyes.update_colour()
 
 /obj/item/organ/external/head/removed()
 	update_icon(1)

@@ -184,24 +184,33 @@
 
 /mob/living/carbon/human/handle_impaired_vision()
 	..()
-	//Vision
-	var/obj/item/organ/vision
-	if(species.vision_organ)
-		vision = internal_organs_by_name[species.vision_organ]
-
-	if(!species.vision_organ) // Presumably if a species has no vision organs, they see via some other means.
+	if(!species.vision_organs) // Presumably if a species has no vision organs, they see via some other means.
 		eye_blind =  0
 		blinded =    0
 		eye_blurry = 0
-	else if(!vision || (vision && !vision.is_usable()))   // Vision organs cut out or broken? Permablind.
-		eye_blind =  1
-		blinded =    1
-		eye_blurry = 1
-	else
-		//blindness
-		if(!(sdisabilities & BLINDED))
-			if(equipment_tint_total >= TINT_BLIND)	// Covered eyes, heal faster
-				eye_blurry = max(eye_blurry-2, 0)
+	else // Check how many usable eyes they have, 0 is blind, 1 is nearsighted, 2+ is fine. Could be replaced with a species-specific threshhold? (cyclops species, three eye or more species)
+		var/usable_eyes = 0
+		var/bruised_eyes = 0
+		for(var/slot in species.vision_organs)
+			var/obj/item/organ/internal/eye/E = internal_organs_by_name[slot]
+			if(E && E.is_usable())
+				usable_eyes++
+				if(E.is_bruised())
+					bruised_eyes++
+		switch(usable_eyes)
+			if(0) // If no eyes, blind
+				blinded = 1
+				eye_blind = 1
+				eye_blurry = 1
+			if(1) // If one eye, blurry
+				eye_blurry = 1
+			if(2 to INFINITY) // If 2+ eyes, check for bruised eyes
+				if(bruised_eyes)
+					eye_blurry = 1
+	//blindness
+	if(!(sdisabilities & BLINDED))
+		if(equipment_tint_total >= TINT_BLIND)	// Covered eyes, heal faster
+			eye_blurry = max(eye_blurry-2, 0)
 
 /mob/living/carbon/human/handle_disabilities()
 	..()

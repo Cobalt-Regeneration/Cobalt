@@ -82,7 +82,8 @@
 
 	has_organ = list(    // which required-organ checks are conducted.
 		BP_BRAIN =    /obj/item/organ/internal/brain/insectoid/nabber,
-		BP_EYES =     /obj/item/organ/internal/eyes/insectoid/nabber,
+		BP_L_EYE =    /obj/item/organ/internal/eye/insectoid/nabber,
+		BP_R_EYE =    /obj/item/organ/internal/eye/right/insectoid/nabber,
 		BP_TRACH =    /obj/item/organ/internal/lungs/insectoid/nabber,
 		BP_LIVER =    /obj/item/organ/internal/liver/insectoid/nabber,
 		BP_HEART =    /obj/item/organ/internal/heart/open,

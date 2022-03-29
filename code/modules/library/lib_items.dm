@@ -222,7 +222,7 @@
 		..()
 
 /obj/item/book/attack(mob/living/carbon/M as mob, mob/living/carbon/user as mob)
-	if(user.zone_sel.selecting == BP_EYES)
+	if(user.zone_sel.selecting == BP_L_EYE || user.zone_sel.selecting == BP_R_EYE)
 		user.visible_message("<span class='notice'>You open up the book and show it to [M]. </span>", \
 			"<span class='notice'> [user] opens up a book and shows it to [M]. </span>")
 		show_browser(M, "<i>Author: [author].</i><br><br>" + "[dat]", "window=book;size=1000x550")

@@ -1,8 +1,10 @@
 /mob/living/carbon/human/proc/update_eyes()
-	var/obj/item/organ/internal/eyes/eyes = internal_organs_by_name[species.vision_organ ? species.vision_organ : BP_EYES]
-	if(eyes)
-		eyes.update_colour()
-		regenerate_icons()
+	if(species.vision_organs)
+		for(var/slot in species.vision_organs) // go through vision organs
+			var/obj/item/organ/internal/eye/eye = internal_organs_by_name[slot]
+			if(eye)
+				eye.update_colour()
+	regenerate_icons()
 
 /mob/living/carbon/human/proc/get_bodypart_name(var/zone)
 	var/obj/item/organ/external/E = get_organ(zone)

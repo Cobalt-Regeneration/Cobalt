@@ -236,9 +236,13 @@ datum/preferences
 	character.age = age
 	character.b_type = b_type
 
-	character.r_eyes = r_eyes
-	character.g_eyes = g_eyes
-	character.b_eyes = b_eyes
+	character.r_l_eye = r_l_eye
+	character.g_l_eye = g_l_eye
+	character.b_l_eye = b_l_eye
+
+	character.r_r_eye = r_r_eye
+	character.g_r_eye = g_r_eye
+	character.b_r_eye = b_r_eye
 
 	character.h_style = h_style
 	character.r_hair = r_hair
@@ -299,7 +303,7 @@ datum/preferences
 	//For species that don't care about your silly prefs
 	character.species.handle_limbs_setup(character)
 	if(!is_preview_copy)
-		for(var/name in list(BP_HEART,BP_EYES,BP_BRAIN,BP_LUNGS,BP_LIVER,BP_KIDNEYS,BP_STOMACH))
+		for(var/name in list(BP_HEART,BP_R_EYE,BP_L_EYE,BP_BRAIN,BP_LUNGS,BP_LIVER,BP_KIDNEYS,BP_STOMACH))
 			var/status = organ_data[name]
 			if(!status)
 				continue

@@ -32,7 +32,7 @@
 		return
 
 	switch(def_zone)
-		if(BP_HEAD , BP_CHEST, BP_MOUTH, BP_EYES)
+		if(BP_HEAD , BP_CHEST, BP_MOUTH, BP_L_EYE, BP_R_EYE)
 			if(LAZYLEN(pilots) && (!hatch_closed || !prob(body.pilot_coverage)))
 				var/mob/living/pilot = pick(pilots)
 				var/zone = pilot.resolve_item_attack(I, user, def_zone)
@@ -66,7 +66,7 @@
 
 /mob/living/exosuit/bullet_act(obj/item/projectile/P, def_zone, used_weapon)
 	switch(def_zone)
-		if(BP_HEAD , BP_CHEST, BP_MOUTH, BP_EYES)
+		if(BP_HEAD , BP_CHEST, BP_MOUTH, BP_L_EYE, BP_R_EYE)
 			if(LAZYLEN(pilots) && (!hatch_closed || !prob(body.pilot_coverage)))
 				var/mob/living/pilot = pick(pilots)
 				return pilot.bullet_act(P, def_zone, used_weapon)
@@ -95,7 +95,7 @@
 
 /mob/living/exosuit/proc/zoneToComponent(var/zone)
 	switch(zone)
-		if(BP_EYES , BP_HEAD)
+		if(BP_L_EYE , BP_R_EYE , BP_HEAD)
 			return head
 		if(BP_L_ARM , BP_R_ARM)
 			return arms
@@ -163,7 +163,7 @@
 	if(!hatch_closed || (body.pilot_coverage < 100)) //Open, environment is the source
 		return .
 	var/list/after_armor = modify_damage_by_armor(null, ., IRRADIATE, DAM_DISPERSED, src, 0, TRUE)
-	return after_armor[1]	
+	return after_armor[1]
 
 /mob/living/exosuit/getFireLoss()
 	var/total = 0
@@ -199,6 +199,6 @@
 			for(var/thing in pilots)
 				var/mob/pilot = thing
 				pilot.emp_act(severity)
-				
+
 /mob/living/exosuit/get_bullet_impact_effect_type(def_zone)
 	return BULLET_IMPACT_METAL

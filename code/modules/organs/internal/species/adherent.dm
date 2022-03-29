@@ -108,18 +108,31 @@
 		else
 			owner.pass_flags &= ~PASS_FLAG_TABLE
 
-/obj/item/organ/internal/eyes/adherent
-	name = "receptor prism"
+/obj/item/organ/internal/eye/adherent
+	name = "left receptor prism"
 	icon = 'icons/mob/human_races/species/adherent/organs.dmi'
-	eye_icon = 'icons/mob/human_races/species/adherent/eyes.dmi'
+	eye_icon = 'icons/mob/human_races/species/adherent/left_eye.dmi'
 	icon_state = "eyes"
 	status = ORGAN_ROBOTIC
 	phoron_guard = TRUE
 	innate_flash_protection = FLASH_PROTECTION_MAJOR
 
-/obj/item/organ/internal/eyes/adherent/Initialize()
+/obj/item/organ/internal/eye/adherent/Initialize()
 	. = ..()
-	verbs |= /obj/item/organ/internal/eyes/proc/change_eye_color
+	verbs |= /obj/item/organ/internal/eye/proc/change_left_eye_color
+
+/obj/item/organ/internal/eye/right/adherent
+	name = "right receptor prism"
+	icon = 'icons/mob/human_races/species/adherent/organs.dmi'
+	eye_icon = 'icons/mob/human_races/species/adherent/right_eye.dmi'
+	icon_state = "eyes"
+	status = ORGAN_ROBOTIC
+	phoron_guard = TRUE
+	innate_flash_protection = FLASH_PROTECTION_MAJOR
+
+/obj/item/organ/internal/eye/right/adherent/Initialize()
+	. = ..()
+	verbs |= /obj/item/organ/internal/eye/right/proc/change_right_eye_color
 
 /obj/item/organ/internal/cell/adherent
 	name = "piezoelectric core"

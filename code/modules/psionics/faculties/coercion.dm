@@ -26,7 +26,7 @@
 	use_description = "Target the eyes or mouth on disarm intent and click anywhere to use a radial attack that blinds, deafens and disorients everyone near you."
 
 /decl/psionic_power/coercion/blindstrike/invoke(var/mob/living/user, var/mob/living/target)
-	if(user.zone_sel.selecting != BP_MOUTH && user.zone_sel.selecting != BP_EYES)
+	if(user.zone_sel.selecting != BP_MOUTH && user.zone_sel.selecting != BP_L_EYE && user.zone_sel.selecting != BP_R_EYE)
 		return FALSE
 	. = ..()
 	if(.)
@@ -144,7 +144,7 @@
 	use_description = "Grab a victim, target the eyes, then use the grab on them while on disarm intent, in order to convert them into a loyal mind-slave. The process takes some time, and failure is punished harshly."
 
 /decl/psionic_power/coercion/mindslave/invoke(var/mob/living/user, var/mob/living/target)
-	if(!istype(target) || user.zone_sel.selecting != BP_EYES)
+	if(!istype(target) || user.zone_sel.selecting != BP_L_EYE || user.zone_sel.selecting != BP_R_EYE)
 		return FALSE
 	. = ..()
 	if(.)

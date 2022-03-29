@@ -118,7 +118,7 @@ meteor_act
 	switch(bodypart)
 		if (BP_HEAD)
 			bodypart = HEAD
-		if (BP_EYES)
+		if (BP_L_EYE, BP_R_EYE)
 			bodypart = EYES
 		if (BP_MOUTH)
 			bodypart = FACE

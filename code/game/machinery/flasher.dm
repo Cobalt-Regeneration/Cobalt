@@ -76,12 +76,16 @@
 				flash_time = round(H.getFlashMod() * flash_time)
 				if(flash_time <= 0)
 					return
-				var/obj/item/organ/internal/eyes/E = H.internal_organs_by_name[H.species.vision_organ]
-				if(!E)
+				if(!O.has_eyes())
 					return
-				if(E.is_bruised() && prob(E.damage + 50))
-					H.flash_eyes()
-					E.damage += rand(1, 5)
+				if(istype(O, /mob/living/carbon))
+					var/mob/living/carbon/C = O
+					if(C.species.vision_organs)
+						for(var/slot in C.species.vision_organs)
+							var/obj/item/organ/internal/eye/E = C.internal_organs_by_name[slot]
+							if(E.is_bruised() && prob(E.damage + 50))
+								H.flash_eyes()
+								E.damage += rand(1, 5)
 
 		if(!O.blinded)
 			do_flash(O, flash_time)
@@ -118,7 +122,7 @@
 		var/mob/living/carbon/M = AM
 		if(!MOVING_DELIBERATELY(M))
 			flash()
-	
+
 	if(isanimal(AM))
 		flash()
 

@@ -141,16 +141,16 @@
 				if(drop_headbutt)
 					let_go()
 				return TRUE
-		else if(G.assailant.zone_sel.selecting == BP_EYES)
-			if(attack_eye(G))
+		else if(G.assailant.zone_sel.selecting == BP_L_EYE || G.assailant.zone_sel.selecting == BP_R_EYE)
+			if(attack_eye(G, G.assailant.zone_sel.selecting))
 				return TRUE
 	return 0
 
-/datum/grab/normal/proc/attack_eye(var/obj/item/grab/G)
+/datum/grab/normal/proc/attack_eye(var/obj/item/grab/G, var/bp_target)
 	var/mob/living/carbon/human/attacker = G.assailant
 	var/mob/living/carbon/human/target = G.affecting
 
-	var/datum/unarmed_attack/attack = attacker.get_unarmed_attack(target, BP_EYES)
+	var/datum/unarmed_attack/attack = attacker.get_unarmed_attack(target, bp_target)
 
 	if(!attack)
 		return
@@ -164,7 +164,7 @@
 
 	admin_attack_log(attacker, target, "Grab attacked the victim's eyes.", "Had their eyes grab attacked.", "attacked the eyes, using a grab action, of")
 
-	attack.handle_eye_attack(attacker, target)
+	attack.handle_eye_attack(attacker, target, bp_target)
 	return TRUE
 
 /datum/grab/normal/proc/headbutt(var/obj/item/grab/G)
@@ -209,7 +209,7 @@
 			if(BP_MOUTH)
 				if(G.affecting.silent < 2)
 					G.affecting.silent = 2
-			if(BP_EYES)
+			if(BP_L_EYE, BP_R_EYE)
 				if(G.affecting.eye_blind < 2)
 					G.affecting.eye_blind = 2
 
@@ -220,7 +220,7 @@
 	switch(new_zone)
 		if(BP_MOUTH)
 			G.assailant.visible_message("<span class='warning'>\The [G.assailant] covers [G.affecting]'s mouth!</span>")
-		if(BP_EYES)
+		if(BP_L_EYE, BP_R_EYE)
 			G.assailant.visible_message("<span class='warning'>\The [G.assailant] covers [G.affecting]'s eyes!</span>")
 
 
@@ -230,7 +230,7 @@
 			if(!G.affecting.check_has_mouth())
 				to_chat(G.assailant, "<span class='danger'>You cannot locate a mouth on [G.affecting]!</span>")
 				return 0
-		if(BP_EYES)
+		if(BP_L_EYE, BP_R_EYE)
 			if(!G.affecting.has_eyes())
 				to_chat(G.assailant, "<span class='danger'>You cannot locate any eyes on [G.affecting]!</span>")
 				return 0

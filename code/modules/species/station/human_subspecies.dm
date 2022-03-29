@@ -29,7 +29,7 @@
 	. = ..()
 	if(.)
 		return H.skill_check(SKILL_HAULING, SKILL_EXPERT) //Hard for them to swim
-	
+
 /datum/species/human/spacer
 	name = SPECIES_SPACER
 	name_plural = "Space-Adapted Humans"
@@ -87,7 +87,8 @@
 		BP_LIVER =    /obj/item/organ/internal/liver,
 		BP_KIDNEYS =  /obj/item/organ/internal/kidneys,
 		BP_BRAIN =    /obj/item/organ/internal/brain,
-		BP_EYES =     /obj/item/organ/internal/eyes
+		BP_L_EYE =    /obj/item/organ/internal/eye,
+		BP_R_EYE =    /obj/item/organ/internal/eye/right
 		)
 
 	additional_available_cultural_info = list(

@@ -13,7 +13,9 @@
 			if(current_species.appearance_flags & HAS_A_SKIN_TONE)
 				s_tone = current_species.get_random_skin_tone() || s_tone
 			if(current_species.appearance_flags & HAS_EYE_COLOR)
-				ASSIGN_LIST_TO_COLORS(current_species.get_random_eye_color(), r_eyes, g_eyes, b_eyes)
+				var/e_color = current_species.get_random_eye_color()
+				ASSIGN_LIST_TO_COLORS(e_color, r_l_eye, g_l_eye, b_l_eye)
+				ASSIGN_LIST_TO_COLORS(e_color, r_r_eye, g_r_eye, b_r_eye)
 			if(current_species.appearance_flags & HAS_SKIN_COLOR)
 				ASSIGN_LIST_TO_COLORS(current_species.get_random_skin_color(), r_skin, g_skin, b_skin)
 			if(current_species.appearance_flags & HAS_HAIR_COLOR)

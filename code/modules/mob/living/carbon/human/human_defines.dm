@@ -12,10 +12,15 @@
 	var/b_facial = 0
 	var/f_style = "Shaved"
 
-	//Eye colour
-	var/r_eyes = 0
-	var/g_eyes = 0
-	var/b_eyes = 0
+	//left eye color
+	var/r_l_eye = 0
+	var/g_l_eye = 0
+	var/b_l_eye = 0
+
+	//right eye color
+	var/r_r_eye = 0
+	var/g_r_eye = 0
+	var/b_r_eye = 0
 
 	var/s_tone = 0  //Skin tone
 	var/s_base = "" //Skin base

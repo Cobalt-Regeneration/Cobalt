@@ -89,8 +89,9 @@
 		BP_LUNGS =    /obj/item/organ/internal/lungs,
 		BP_LIVER =    /obj/item/organ/internal/liver,
 		BP_KIDNEYS =  /obj/item/organ/internal/kidneys,
-		BP_EYES =   /obj/item/organ/internal/eyes/unathi,
-		BP_BRAIN =  /obj/item/organ/internal/brain/unathi
+		BP_L_EYE =    /obj/item/organ/internal/eye/unathi,
+		BP_R_EYE =    /obj/item/organ/internal/eye/right/unathi,
+		BP_BRAIN =    /obj/item/organ/internal/brain/unathi
 		)
 
 	descriptors = list(

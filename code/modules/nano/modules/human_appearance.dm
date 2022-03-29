@@ -112,13 +112,25 @@
 			return TRUE
 		return
 
-	if (href_list["eye_color"] && (flags & APPEARANCE_EYES))
-		var/color = rgb(owner.r_eyes, owner.g_eyes, owner.b_eyes)
+	if (href_list["l_eye_color"] && (flags & APPEARANCE_EYES))
+		var/color = rgb(owner.r_l_eye, owner.g_l_eye, owner.b_l_eye)
 		var/data = input(usr, "Eye Color:", "Eye Color", color) as null | color
 		if (isnull(data) || !can_still_topic(state))
 			return
 		color = rgb2num(data)
-		if (owner.change_eye_color(arglist(color)))
+		if (owner.change_specific_eye_color(color[1], color[2], color[3], TRUE))
+			if (flags & APPEARANCE_DNA2)
+				owner.update_dna()
+			return TRUE
+		return
+
+	if (href_list["r_eye_color"] && (flags & APPEARANCE_EYES))
+		var/color = rgb(owner.r_r_eye, owner.g_r_eye, owner.b_r_eye)
+		var/data = input(usr, "Eye Color:", "Eye Color", color) as null | color
+		if (isnull(data) || !can_still_topic(state))
+			return
+		color = rgb2num(data)
+		if (owner.change_specific_eye_color(color[1], color[2], color[3], FALSE))
 			if (flags & APPEARANCE_DNA2)
 				owner.update_dna()
 			return TRUE
@@ -149,7 +161,8 @@
 
 	data["change_skin_tone"] = (flags & APPEARANCE_SKIN) && (owner.species.appearance_flags & HAS_A_SKIN_TONE)
 	data["change_skin_color"] = (flags & APPEARANCE_SKIN) && (owner.species.appearance_flags & HAS_SKIN_COLOR)
-	data["change_eye_color"] = !!(flags & APPEARANCE_EYES)
+	data["change_l_eye_color"] = !!(flags & APPEARANCE_EYES)
+	data["change_r_eye_color"] = !!(flags & APPEARANCE_EYES)
 	data["change_hair_color"] = !!(flags & APPEARANCE_HEAD_COLOR)
 	data["change_facial_hair_color"] = !!(flags & APPEARANCE_FACE_COLOR)
 

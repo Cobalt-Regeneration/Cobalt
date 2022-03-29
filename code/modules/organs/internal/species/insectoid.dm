@@ -20,6 +20,10 @@
 	name = "ganglial junction"
 	icon_state = "brain-distributed"
 
-/obj/item/organ/internal/eyes/insectoid
-	name = "compound ocelli"
-	icon_state = "eyes-compound"
+/obj/item/organ/internal/eye/insectoid
+	name = "left compound ocellus"
+	icon_state = "eye-compound"
+
+/obj/item/organ/internal/eye/right/insectoid
+	name = "right compound ocellus"
+	icon_state = "eye-compound"

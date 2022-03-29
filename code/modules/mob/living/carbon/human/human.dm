@@ -567,43 +567,60 @@
 ///eyecheck()
 ///Returns a number between -1 to 2
 /mob/living/carbon/human/eyecheck()
-	var/total_protection = flash_protection
-	if(species.has_organ[species.vision_organ])
-		var/obj/item/organ/internal/eyes/I = internal_organs_by_name[species.vision_organ]
-		if(!I?.is_usable())
-			return FLASH_PROTECTION_MAJOR
-		else
-			total_protection = I.get_total_protection(flash_protection)
-	else // They can't be flashed if they don't have eyes.
+	if(!has_eyes()) // They can't be flashed if they don't have working eyes.
 		return FLASH_PROTECTION_MAJOR
+	var/total_protection = flash_protection
+	var/sum_protection = 0
+	if(species.vision_organs)
+		for(var/slot in species.vision_organs)
+			var/obj/item/organ/internal/eye/I = internal_organs_by_name[slot]
+			if(I)
+				sum_protection += I.get_total_protection(flash_protection)
+	if(sum_protection)
+		total_protection = sum_protection / 2 // Average protection of both eyes
 	return total_protection
 
 /mob/living/carbon/human/flash_eyes(var/intensity = FLASH_PROTECTION_MODERATE, override_blindness_check = FALSE, affect_silicon = FALSE, visual = FALSE, type = /obj/screen/fullscreen/flash)
-	if(species.has_organ[species.vision_organ])
-		var/obj/item/organ/internal/eyes/I = internal_organs_by_name[species.vision_organ]
-		if(!isnull(I))
-			I.additional_flash_effects(intensity)
+	if(species.vision_organs)
+		for(var/slot in species.vision_organs)
+			var/obj/item/organ/internal/eye/I = internal_organs_by_name[slot]
+			if(I)
+				I.additional_flash_effects(intensity)
 	return ..()
 
 /mob/living/carbon/human/proc/getFlashMod()
-	if(species.vision_organ)
-		var/obj/item/organ/internal/eyes/I = internal_organs_by_name[species.vision_organ]
-		if(istype(I))
-			return I.flash_mod
+	if(species.vision_organs)
+		var/average_mod = 0
+		var/eye_count = 0
+		for(var/slot in species.vision_organs)
+			var/obj/item/organ/internal/eye/I = internal_organs_by_name[slot]
+			if(I)
+				average_mod += I.flash_mod
+				eye_count++
+		return average_mod / eye_count // Get average flashmod
 	return species.flash_mod
 
 /mob/living/carbon/human/proc/getDarkvisionRange()
-	if(species.vision_organ)
-		var/obj/item/organ/internal/eyes/I = internal_organs_by_name[species.vision_organ]
-		if(istype(I))
-			return I.darksight_range
+	if(species.vision_organs)
+		var/average_range = 0
+		var/eye_count = 0
+		for(var/slot in species.vision_organs)
+			var/obj/item/organ/internal/eye/I = internal_organs_by_name[slot]
+			if(I)
+				average_range += I.darksight_range
+				eye_count++
+		return average_range / eye_count // Get average darksight range
 	return species.darksight_range
 
 /mob/living/carbon/human/proc/getDarkvisionTint()
-	if(species.vision_organ)
-		var/obj/item/organ/internal/eyes/I = internal_organs_by_name[species.vision_organ]
-		if(istype(I))
-			return I.darksight_tint
+	if(species.vision_organs)
+		var/highest_tint = DARKTINT_NONE
+		var/darktint_rank = list(DARKTINT_NONE = 1, DARKTINT_MODERATE = 2, DARKTINT_GOOD = 3)
+		for(var/slot in species.vision_organs)
+			var/obj/item/organ/internal/eye/I = internal_organs_by_name[slot]
+			if(I && I.is_usable() && (darktint_rank[I.darksight_tint] > darktint_rank[highest_tint])) // If higher value than previous tint, set as highest
+				highest_tint = I.darksight_tint
+		return highest_tint // return highest darksight tint
 	return species.darksight_tint
 
 //Used by various things that knock people out by applying blunt trauma to the head.
@@ -786,11 +803,18 @@
 		g_hair = hex2num(copytext(new_hair, 4, 6))
 		b_hair = hex2num(copytext(new_hair, 6, 8))
 
-	var/new_eyes = input("Please select eye color.", "Character Generation",rgb(r_eyes,g_eyes,b_eyes)) as color
-	if(new_eyes)
-		r_eyes = hex2num(copytext(new_eyes, 2, 4))
-		g_eyes = hex2num(copytext(new_eyes, 4, 6))
-		b_eyes = hex2num(copytext(new_eyes, 6, 8))
+	var/new_l_eye = input("Please select left eye color.", "Character Generation",rgb(r_l_eye,g_l_eye,b_l_eye)) as color
+	if(new_l_eye)
+		r_l_eye = hex2num(copytext(new_l_eye, 2, 4))
+		g_l_eye = hex2num(copytext(new_l_eye, 4, 6))
+		b_l_eye = hex2num(copytext(new_l_eye, 6, 8))
+		update_eyes()
+
+	var/new_r_eye = input("Please select right eye color.", "Character Generation",rgb(r_r_eye,g_r_eye,b_r_eye)) as color
+	if(new_r_eye)
+		r_r_eye = hex2num(copytext(new_r_eye, 2, 4))
+		g_r_eye = hex2num(copytext(new_r_eye, 4, 6))
+		b_r_eye = hex2num(copytext(new_r_eye, 6, 8))
 		update_eyes()
 
 	var/new_tone = input("Please select skin tone level: 1-220 (1=albino, 35=caucasian, 150=black, 220='very' black)", "Character Generation", "[35-s_tone]")  as text
@@ -1443,10 +1467,11 @@
 			return 1
 	return 0
 
-/mob/living/carbon/human/has_eyes()
-	if(internal_organs_by_name[BP_EYES])
-		var/obj/item/organ/internal/eyes = internal_organs_by_name[BP_EYES]
-		if(eyes && eyes.is_usable())
+/mob/living/carbon/human/has_eyes() // Checks if mob has at least one functioning eye
+	if(internal_organs_by_name[BP_L_EYE] || internal_organs_by_name[BP_R_EYE])
+		var/obj/item/organ/internal/l_eye = internal_organs_by_name[BP_L_EYE]
+		var/obj/item/organ/internal/r_eye = internal_organs_by_name[BP_R_EYE]
+		if((l_eye && l_eye.is_usable()) || (r_eye && r_eye.is_usable()))
 			return 1
 	return 0
 

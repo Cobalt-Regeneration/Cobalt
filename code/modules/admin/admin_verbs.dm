@@ -743,11 +743,18 @@ var/list/admin_verbs_mod = list(
 		M.g_hair = hex2num(copytext(new_hair, 4, 6))
 		M.b_hair = hex2num(copytext(new_hair, 6, 8))
 
-	var/new_eyes = input("Please select eye color.", "Character Generation") as color
-	if(new_eyes)
-		M.r_eyes = hex2num(copytext(new_eyes, 2, 4))
-		M.g_eyes = hex2num(copytext(new_eyes, 4, 6))
-		M.b_eyes = hex2num(copytext(new_eyes, 6, 8))
+	var/new_l_eye = input("Please select left eye color.", "Character Generation") as color
+	if(new_l_eye)
+		M.r_l_eye = hex2num(copytext(new_l_eye, 2, 4))
+		M.g_l_eye = hex2num(copytext(new_l_eye, 4, 6))
+		M.b_l_eye = hex2num(copytext(new_l_eye, 6, 8))
+		M.update_eyes()
+
+	var/new_r_eye = input("Please select right eye color.", "Character Generation") as color
+	if(new_r_eye)
+		M.r_r_eye = hex2num(copytext(new_r_eye, 2, 4))
+		M.g_r_eye = hex2num(copytext(new_r_eye, 4, 6))
+		M.b_r_eye = hex2num(copytext(new_r_eye, 6, 8))
 		M.update_eyes()
 
 	var/new_skin = input("Please select body color. This is for Unathi, and Skrell only!", "Character Generation") as color

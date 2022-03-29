@@ -81,14 +81,32 @@
 
 	update_hair()
 
-/mob/living/carbon/human/proc/change_eye_color(var/red, var/green, var/blue)
-	if(red == r_eyes && green == g_eyes && blue == b_eyes)
+/mob/living/carbon/human/proc/change_eye_color(var/red, var/green, var/blue) // Change both eye colors
+	if(red == r_l_eye && green == g_l_eye && blue == b_l_eye && red == r_r_eye && green == g_r_eye && blue == b_r_eye)
 		return
+	r_l_eye = red
+	g_l_eye = green
+	b_l_eye = blue
+	r_r_eye = red
+	g_r_eye = green
+	b_r_eye = blue
+	update_eyes()
+	update_body()
+	return 1
 
-	r_eyes = red
-	g_eyes = green
-	b_eyes = blue
-
+/mob/living/carbon/human/proc/change_specific_eye_color(var/red, var/green, var/blue, var/left = TRUE) // Change one eye color, if left is true change left eye
+	if(left)
+		if(red == r_l_eye && green == g_l_eye && blue == b_l_eye)
+			return
+		r_l_eye = red
+		g_l_eye = green
+		b_l_eye = blue
+	else
+		if(red == r_r_eye && green == g_r_eye && blue == b_r_eye)
+			return
+		r_r_eye = red
+		g_r_eye = green
+		b_r_eye = blue
 	update_eyes()
 	update_body()
 	return 1

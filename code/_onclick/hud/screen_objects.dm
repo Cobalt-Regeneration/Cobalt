@@ -137,11 +137,15 @@
 						if(icon_x in 15 to 17)
 							new_selecting = BP_MOUTH
 					if(26) //Eyeline, eyes are on 15 and 17
-						if(icon_x in 14 to 18)
-							new_selecting = BP_EYES
+						if(icon_x in 14 to 16)
+							new_selecting = BP_R_EYE
+						if(icon_x in 17 to 18)
+							new_selecting = BP_L_EYE
 					if(25 to 27)
-						if(icon_x in 15 to 17)
-							new_selecting = BP_EYES
+						if(icon_x in 15 to 16)
+							new_selecting = BP_R_EYE
+						if(icon_x in 17 to 18)
+							new_selecting = BP_L_EYE
 
 	set_selected_zone(new_selecting)
 	return 1

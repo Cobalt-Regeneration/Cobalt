@@ -26,14 +26,22 @@
 
 /obj/item/organ/external/head/proc/get_eye_overlay()
 	if(glowing_eyes)
-		var/obj/item/organ/internal/eyes/eyes = owner.internal_organs_by_name[owner.species.vision_organ ? owner.species.vision_organ : BP_EYES]
-		if(eyes)
-			return eyes.get_special_overlay()
+		var/list/overlay_list = list()
+		if(species.vision_organs)
+			for(var/slot in species.vision_organs)
+				var/obj/item/organ/internal/eye/E = owner.internal_organs_by_name[slot]
+				if(E)
+					overlay_list += E.get_special_overlay()
+		return overlay_list
 
 /obj/item/organ/external/head/proc/get_eyes()
-	var/obj/item/organ/internal/eyes/eyes = owner.internal_organs_by_name[owner.species.vision_organ ? owner.species.vision_organ : BP_EYES]
-	if(eyes)
-		return eyes.get_onhead_icon()
+	var/list/icon_list = list()
+	if(species.vision_organs)
+		for(var/slot in species.vision_organs)
+			var/obj/item/organ/internal/eye/E = owner.internal_organs_by_name[slot]
+			if(E)
+				icon_list += E.get_onhead_icon()
+	return icon_list
 
 /obj/item/organ/external/head/examine(mob/user)
 	. = ..()
@@ -101,14 +109,16 @@
 	if(owner)
 		// Base eye icon.
 		if(draw_eyes)
-			var/icon/I = get_eyes()
-			if(I)
-				overlays |= I
-				mob_icon.Blend(I, ICON_OVERLAY)
+			var/list/I = get_eyes()
+			for(var/icon/icn in I)
+				if(icn)
+					overlays |= icn
+					mob_icon.Blend(icn, ICON_OVERLAY)
 
 			// Floating eyes or other effects.
-			var/image/eye_glow = get_eye_overlay()
-			if(eye_glow) overlays |= eye_glow
+			var/list/eye_glow = get_eye_overlay()
+			for(var/image/img in eye_glow)
+				if(img) overlays |= img
 
 		if(owner.lip_style && !BP_IS_ROBOTIC(src) && (species && (species.appearance_flags & HAS_LIPS)))
 			var/icon/lip_icon = new/icon('icons/mob/human_races/species/human/lips.dmi', "lips_[owner.lip_style]_s")

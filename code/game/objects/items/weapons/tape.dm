@@ -7,7 +7,7 @@
 
 /obj/item/tape_roll/attack(var/mob/living/carbon/human/H, var/mob/user)
 	if(istype(H))
-		if(user.zone_sel.selecting == BP_EYES)
+		if(user.zone_sel.selecting == BP_L_EYE || user.zone_sel.selecting == BP_R_EYE)
 
 			if(!H.organs_by_name[BP_HEAD])
 				to_chat(user, "<span class='warning'>\The [H] doesn't have a head.</span>")
@@ -141,7 +141,7 @@
 	playsound(src, 'sound/effects/tape.ogg',25)
 
 	layer = ABOVE_WINDOW_LAYER
-	
+
 	if(params)
 		var/list/mouse_control = params2list(params)
 		if(mouse_control["icon-x"])

@@ -198,7 +198,8 @@
 
 // Organs.
 #define BP_MOUTH    "mouth"
-#define BP_EYES     "eyes"
+#define BP_L_EYE    "l_eye"
+#define BP_R_EYE	"r_eye"
 #define BP_HEART    "heart"
 #define BP_LUNGS    "lungs"
 #define BP_TRACH	"tracheae"

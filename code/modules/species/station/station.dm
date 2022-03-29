@@ -217,7 +217,8 @@
 		BP_LIVER =    /obj/item/organ/internal/liver,
 		BP_KIDNEYS =  /obj/item/organ/internal/kidneys,
 		BP_BRAIN =    /obj/item/organ/internal/brain,
-		BP_EYES =     /obj/item/organ/internal/eyes/skrell
+		BP_L_EYE =    /obj/item/organ/internal/eye/skrell,
+		BP_R_EYE =    /obj/item/organ/internal/eye/right/skrell
 		)
 
 	exertion_effect_chance = 10
@@ -244,14 +245,14 @@
 	else if (effective_dose > 10)
 		M.vomit(4, 2, rand(3 SECONDS, 10 SECONDS))
 	else
-		M.vomit(1, 1, rand(5 SECONDS, 15 SECONDS))	
+		M.vomit(1, 1, rand(5 SECONDS, 15 SECONDS))
 
 /datum/species/skrell/get_sex(var/mob/living/carbon/human/H)
 	return istype(H) && (H.descriptors["headtail length"] == 1 ? MALE : FEMALE)
 
 /datum/species/skrell/check_background()
 	return TRUE
-	
+
 /datum/species/skrell/can_float(mob/living/carbon/human/H)
 	if(!H.is_physically_disabled())
 		if(H.encumbrance() < 2)
@@ -397,7 +398,7 @@
 		if(101 to 200)	. = 12 // age bracket before this is 46 to 100 . = 8 making this +4
 		if(201 to 300)	. = 16 // + 8
 		else			. = ..()
-		
+
 // Dionaea spawned by hand or by joining will not have any
 // nymphs passed to them. This should take care of that.
 /datum/species/diona/handle_post_spawn(var/mob/living/carbon/human/H)
